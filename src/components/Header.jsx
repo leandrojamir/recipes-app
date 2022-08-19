@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 
+// Iniciando
 function Header({ titulo, showBtn }) {
   return (
     <>
