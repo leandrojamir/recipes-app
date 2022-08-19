@@ -3,12 +3,9 @@ import PropTypes from 'prop-types';
 
 const RecipesContext = createContext({});
 
-export const RecipesProvider = ({ children }) => {
-  const hh = '';
-  return (
-    <RecipesContext.Provider value={ {} }>{children}</RecipesContext.Provider>
-  );
-};
+export const RecipesProvider = ({ children }) => (
+  <RecipesContext.Provider value={ {} }>{children}</RecipesContext.Provider>
+);
 
 export function ContextRecipes() {
   const context = useContext(RecipesContext);
