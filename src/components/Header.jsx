@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import profileIcon from '../images/profileIcon.svg';
+import searchIcon from '../images/searchIcon.svg';
 
 function Header({ titulo, showBtn }) {
   return (
@@ -10,7 +12,7 @@ function Header({ titulo, showBtn }) {
         data-testid="profile-top-btn"
         src="./images/profileIcon.svg"
       >
-        <img src="./images/profileIcon.svg" alt="Profile" />
+        <img src={ profileIcon } alt="Profile" />
       </button>
       { showBtn && (
         <button
@@ -18,7 +20,7 @@ function Header({ titulo, showBtn }) {
           data-testid="search-top-btn"
           src="src/images/searchIcon.svg"
         >
-          <img src="./images/searchIcon.svg" alt="Search" />
+          <img src={ searchIcon } alt="Search" />
         </button>
       ) }
     </>
