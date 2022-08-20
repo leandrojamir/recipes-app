@@ -21,18 +21,34 @@ describe('Teste da Login', () => {
     expect(inputPassword).toBeInTheDocument();
     expect(inputPassword).toHaveValue(testPassword);
   });
+  it('Testando se o botao inicia desabilitado na tela', () => {
+    renderWithRouter(<App />);
+    const buttonEnter = screen.getByRole('button', { name: /entrar/i });
+    expect(buttonEnter).toBeInTheDocument();
+    expect(buttonEnter).toBeDisabled();
+  });
 
   it('tentanto deixar o mais proximo de 90% com botão', () => {
     renderWithRouter(<App />);
 
     const buttonEnter = screen.getByRole('button', { name: /entrar/i });
-    expect(buttonEnter).toBeInTheDocument();
-    expect(buttonEnter).toBeDisabled();
 
     const inputEmail = screen.getByPlaceholderText(/email/i);
     userEvent.type(inputEmail, testEmail);
     const inputPassword = screen.getByPlaceholderText(/password/i);
     userEvent.type(inputPassword, testPassword);
     expect(buttonEnter).not.toBeDisabled();
+  });
+  it('Testar se ao clicar no botao e redirecionado para pagina foods', () => {
+    const { history } = renderWithRouter(<App />);
+    const inputEmail = screen.getByPlaceholderText(/email/i);
+    userEvent.type(inputEmail, testEmail);
+    const inputPassword = screen.getByPlaceholderText(/password/i);
+    userEvent.type(inputPassword, testPassword);
+
+    const buttonEnter = screen.getByRole('button', { name: /Entrar/i });
+    userEvent.click(buttonEnter);
+    const { location: { pathname } } = history;
+    expect(pathname).toBe('/foods');
   });
 });
