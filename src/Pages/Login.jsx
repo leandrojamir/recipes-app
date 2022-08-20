@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 
 const Login = () => {
-  const emailValidation = /\S+@\S+\.\S+/;
   const max = 6;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [disabled, setDisabled] = useState(true);
 
   useEffect(() => {
+    const emailValidation = /\S+@\S+\.\S+/;
     if (emailValidation.test(email) && password.length > max) {
       setDisabled(false);
     }
-  }, [email, password]);
+  }, [email, password, setDisabled]);
 
   return (
     <main>
@@ -40,6 +40,14 @@ const Login = () => {
           type="button"
           data-testid="login-submit-btn"
           disabled={ disabled }
+          onClick={ () => {
+            localStorage.setItem('mealsToken', 1);
+            localStorage.setItem('cocktailsToken', 1);
+            const userEmail = {
+              email,
+            };
+            localStorage.setItem('user', JSON.stringify(userEmail));
+          } }
         >
           Entrar
         </button>
