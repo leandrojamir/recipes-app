@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 const Login = () => {
   const max = 6;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [disabled, setDisabled] = useState(true);
+
+  const history = useHistory();
 
   useEffect(() => {
     const emailValidation = /\S+@\S+\.\S+/;
@@ -47,6 +50,7 @@ const Login = () => {
               email,
             };
             localStorage.setItem('user', JSON.stringify(userEmail));
+            history.push('/foods');
           } }
         >
           Entrar
