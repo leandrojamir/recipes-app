@@ -31,7 +31,7 @@ function Header({ titulo, showBtn }) {
       ) }
       {searchEnabled && (
         <label htmlFor="search">
-          <input type="text" data-testid="search-input" id="search"/>
+          <input type="text" data-testid="search-input" id="search" />
         </label>
       )}
     </header>
