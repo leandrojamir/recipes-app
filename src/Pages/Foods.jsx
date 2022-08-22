@@ -6,7 +6,6 @@ function Foods() {
   return (
     <div>
       <Header titulo="Foods" showBtn />
-      <SearchBar />
     </div>
   );
 }
