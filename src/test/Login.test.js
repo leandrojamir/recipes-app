@@ -10,7 +10,7 @@ const testPassword = '1234567';
 describe('Teste da Login', () => {
   it('45% requisito 4', () => {
     renderWithRouter(<App />);
-
+    //
     const inputEmail = screen.getByPlaceholderText(/email/i);
     userEvent.type(inputEmail, testEmail);
     expect(inputEmail).toBeInTheDocument();
