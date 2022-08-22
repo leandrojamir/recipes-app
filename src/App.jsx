@@ -19,9 +19,9 @@ function App() {
       <Route exact path="/" render={ (props) => <Login { ...props } /> } />
       <Route exact path="/foods" render={ (props) => <Foods { ...props } /> } />
       <Route exact path="/foods/:id" render={ (props) => <FoodsId { ...props } /> } />
-      <Route exact path="/drinks/" render={ (props) => <Drinks { ...props } /> } />
+      <Route exact path="/drinks" render={ (props) => <Drinks { ...props } /> } />
       <Route exact path="/drinks/:id" render={ (props) => <DrinksId { ...props } /> } />
-      <Route exact path="/profile/" render={ (props) => <Profile { ...props } /> } />
+      <Route exact path="/profile" render={ (props) => <Profile { ...props } /> } />
       <Route
         exact
         path="/done-recipes"
