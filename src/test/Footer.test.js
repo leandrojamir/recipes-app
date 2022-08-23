@@ -8,7 +8,7 @@ import renderWithRouter from './helpers/renderWithRouter';
 const testEmail = 'teste@teste.com';
 const testPassword = '1234567';
 
-describe('Teste da Login', () => {
+describe('Teste da Footer', () => {
   it('Testar os botões corretos', () => {
     const { history } = renderWithRouter(<App />);
     const inputEmail = screen.getByPlaceholderText(/email/i);
@@ -36,11 +36,13 @@ describe('Teste da Login', () => {
 
     const buttonEnter = screen.getByRole('button', { name: /Entrar/i });
     userEvent.click(buttonEnter);
+    // expect(pathname).toBe('/foods');
+    // const mealBtn = screen.getByTestId('food-bottom-btn');
 
     const drinkBtn = screen.getByTestId('drinks-bottom-btn');
     userEvent.click(drinkBtn);
     const { location: { pathname } } = history;
-    // const { location: { pathname } } = histo
+    // const { location: { pathname } } = history;
     expect(pathname).toBe('/drinks');
   });
 
