@@ -40,7 +40,7 @@ describe('Teste da Login', () => {
     const drinkBtn = screen.getByTestId('drinks-bottom-btn');
     userEvent.click(drinkBtn);
     const { location: { pathname } } = history;
-    // const { location: { pathname } } = history;
+    // const { location: { pathname } } = histo
     expect(pathname).toBe('/drinks');
   });
 
