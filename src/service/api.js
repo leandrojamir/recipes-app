@@ -1,6 +1,6 @@
-export const fetchIngredients = async (ingrediente) => {
+export const fetchIngredients = async (ingrediente, type) => {
   try {
-    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingrediente}`);
+    const response = await fetch(`https://www.${type}.com/api/json/v1/1/filter.php?i=${ingrediente}`);
     const data = await response.json();
     return data.meals;
   } catch (error) {
@@ -8,9 +8,9 @@ export const fetchIngredients = async (ingrediente) => {
   }
 };
 
-export const fetchName = async (name) => {
+export const fetchName = async (name, type) => {
   try {
-    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${name}`);
+    const response = await fetch(`https://www.${type}.com/api/json/v1/1/search.php?s=${name}`);
     const data = await response.json();
     return data;
   } catch (error) {
@@ -18,9 +18,9 @@ export const fetchName = async (name) => {
   }
 };
 
-export const fetchLetter = async (letter) => {
+export const fetchLetter = async (letter, type) => {
   try {
-    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?f=${letter}`);
+    const response = await fetch(`https://www.${type}.com/api/json/v1/1/search.php?f=${letter}`);
     const data = await response.json();
     return data;
   } catch (error) {
