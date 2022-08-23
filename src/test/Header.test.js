@@ -13,9 +13,6 @@ describe('Teste da Header', () => {
 
     expect(pageTitle).toBeInTheDocument();
     expect(profileBtn).toBeInTheDocument();
-
-    // const searchBtn = screen.getByTestId('search-top-btn');
-    // expect(searchBtn).toBeInTheDocument();
   });
 
   it('100% Header, teste botão search e caminho até profile', () => {
