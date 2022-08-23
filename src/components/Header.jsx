@@ -16,8 +16,6 @@ function Header({ titulo, showBtn }) {
 
   return (
     <header>
-      {/* Rota "/profile": possui o header com o título "Profile" e o ícone de perfil, mas sem o ícone de pesquisa */}
-
       <h1 data-testid="page-title">{titulo}</h1>
       <button
         type="button"
