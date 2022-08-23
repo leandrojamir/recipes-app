@@ -36,8 +36,6 @@ describe('Teste da Login', () => {
 
     const buttonEnter = screen.getByRole('button', { name: /Entrar/i });
     userEvent.click(buttonEnter);
-    // expect(pathname).toBe('/foods');
-    // const mealBtn = screen.getByTestId('food-bottom-btn');
 
     const drinkBtn = screen.getByTestId('drinks-bottom-btn');
     userEvent.click(drinkBtn);
