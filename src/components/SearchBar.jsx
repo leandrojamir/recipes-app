@@ -1,28 +1,31 @@
 import React, { useState } from 'react';
-// import { ContextRecipes } from '../context/recipesContext';
+import { ContextRecipes } from '../context/recipesContext';
 import { fetchIngredients, fetchName, fetchLetter } from '../service/api';
 
 function SearchBar() {
+  const { type } = ContextRecipes();
   const [search, setSearch] = useState('');
   const [radio, setRadio] = useState('');
+
+  console.log('type:', type);
 
   const handleSearch = ({ target: { value } }) => setSearch(value);
 
   const handleRadio = ({ target: { value } }) => setRadio(value);
 
-  const searchApi = async () => {
+  const searchApi = async (param) => {
     console.log('radio:', radio);
     if (radio === 'first-letter') {
       if (search.length > 1) {
         global.alert('Your search must have only 1 (one) character');
       }
-      console.log(await fetchLetter(search));
+      console.log(await fetchLetter(search, param));
     }
     if (radio === 'ingredient') {
-      console.log(await fetchIngredients(search));
+      console.log(await fetchIngredients(search, param));
     }
     if (radio === 'name') {
-      console.log(await fetchName(search));
+      console.log(await fetchName(search, param));
     }
   };
 
@@ -76,7 +79,7 @@ function SearchBar() {
       <button
         type="button"
         data-testid="exec-search-btn"
-        onClick={ searchApi }
+        onClick={ () => searchApi(type === 'Drinks' ? 'thecocktaildb' : 'themealdb') }
       >
         Buscar
       </button>
