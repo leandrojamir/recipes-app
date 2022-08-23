@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
+import { ContextRecipes } from '../context/recipesContext';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
 
 function Header({ titulo, showBtn }) {
+  const { setType } = ContextRecipes();
   const history = useHistory();
   const [searchEnabled, setSearchEnabled] = useState(false);
+
+  // food or drink
+  setType(titulo);
 
   return (
     <header>
