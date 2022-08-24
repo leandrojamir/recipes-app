@@ -1,68 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useState } from 'react';
 import { ContextRecipes } from '../context/recipesContext';
 import { fetchIngredients, fetchName, fetchLetter } from '../service/api';
 
 function SearchBar() {
-  const {
-    type,
-    setFood,
-    setDrinks,
-    setListRecipes,
-    category,
-    setCategory,
-  } = ContextRecipes();
+  const { type } = ContextRecipes();
   const [search, setSearch] = useState('');
   const [radio, setRadio] = useState('');
-  const history = useHistory();
 
-  useEffect(() => {
-    const handlePath = () => {
-      if (type === 'Foods') {
-        setCategory('/foods/');
-      } else {
-        setCategory('/drinks/');
-      }
-    };
-    handlePath();
-  }, []);
+  console.log('type:', type);
 
   const handleSearch = ({ target: { value } }) => setSearch(value);
 
   const handleRadio = ({ target: { value } }) => setRadio(value);
 
-  const getIdRecipes = (results) => {
-    const { meals, drinks } = results;
-    const obj = type === 'Foods' ? meals : drinks;
-    const id = type === 'Foods' ? meals[0].idMeal : drinks[0].idDrink;
-
-    if (obj === null) {
-      global.alert('Sorry, we haven\'t found any recipes for these filters.');
-    }
-
-    if (obj.length > 1) {
-      setListRecipes(obj);
-    } else if (obj.length === 1) {
-      history.push(`${category}${id}`);
-    }
-  };
-
   const searchApi = async (param) => {
+    console.log('radio:', radio);
     if (radio === 'first-letter') {
       if (search.length > 1) {
         global.alert('Your search must have only 1 (one) character');
       }
-      const results = await fetchLetter(search, param);
-      getIdRecipes(results);
+      console.log(await fetchLetter(search, param));
     }
     if (radio === 'ingredient') {
-      const results = await fetchIngredients(search, param);
-      getIdRecipes(results);
+      console.log(await fetchIngredients(search, param));
     }
     if (radio === 'name') {
-      const results = await fetchName(search, param);
-      getIdRecipes(results);
-      console.log(results);
+      console.log(await fetchName(search, param));
     }
   };
 
