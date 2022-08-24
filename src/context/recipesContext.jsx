@@ -5,10 +5,22 @@ const RecipesContext = createContext({});
 
 export const RecipesProvider = ({ children }) => {
   const [type, setType] = useState('');
+  const [food, setFood] = useState('');
+  const [drinks, setDrinks] = useState('');
+  const [listRecipes, setListRecipes] = useState([]);
+  const [category, setCategory] = useState('');
 
   const value = {
     type,
     setType,
+    drinks,
+    food,
+    setFood,
+    setDrinks,
+    setListRecipes,
+    listRecipes,
+    setCategory,
+    category,
   };
 
   return (
