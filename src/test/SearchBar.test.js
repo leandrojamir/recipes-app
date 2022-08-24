@@ -55,10 +55,6 @@ describe('Teste da Header', () => {
 
     userEvent.type(searchInput, 'onion');
     userEvent.click(execBtn);
-
-    // expect(screen.getByText(/your search must have only'/i)).toBeInTheDocument();
-    // const alert = 'Your search must have only 1 (one) character';
-    // expect(global.alert).toBeCalledWith(alert);
     expect(global.alert).toBeDefined();
   });
 });
