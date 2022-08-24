@@ -2,9 +2,9 @@ export const fetchIngredients = async (ingrediente, type) => {
   try {
     const response = await fetch(`https://www.${type}.com/api/json/v1/1/filter.php?i=${ingrediente}`);
     const data = await response.json();
-    return data.meals;
+    return data;
   } catch (error) {
-    console.log(error.msg);
+    console.log(error);
   }
 };
 
@@ -14,7 +14,7 @@ export const fetchName = async (name, type) => {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.log(error.msg);
+    console.error(error.msg);
   }
 };
 
@@ -24,6 +24,6 @@ export const fetchLetter = async (letter, type) => {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.log(error.msg);
+    console.log(error);
   }
 };
