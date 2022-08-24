@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import Recipes from '../components/Recipes';
 import { ContextRecipes } from '../context/recipesContext';
 import RecipeCard from '../components/RecipeCard';
 
@@ -11,6 +12,7 @@ function Foods() {
   return (
     <>
       <Header titulo="Foods" showBtn />
+      <Recipes titulo="Foods" />
       <main>
         <section>
           { arrResults && arrResults.slice(0, maxNumber)
