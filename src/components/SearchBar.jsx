@@ -41,6 +41,7 @@ function SearchBar() {
     if (radio === 'name') {
       const resultName = await fetchName(search, param);
       setArrResults(resultName[key]);
+      console.log(resultName);
     }
   };
 
