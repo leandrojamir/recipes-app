@@ -51,4 +51,19 @@ describe('Teste da Login', () => {
     const { location: { pathname } } = history;
     expect(pathname).toBe('/foods');
   });
+
+  it('profile do 8', () => {
+    const { history } = renderWithRouter(<App />);
+
+    const inputEmail = screen.getByPlaceholderText(/email/i);
+    userEvent.type(inputEmail, testEmail);
+    const inputPassword = screen.getByPlaceholderText(/password/i);
+    userEvent.type(inputPassword, testPassword);
+    const buttonEnter = screen.getByRole('button', { name: /entrar/i });
+    userEvent.click(buttonEnter);
+
+    history.push('/profile');
+
+    expect(screen.getByRole('heading', { testEmail })).toBeInTheDocument();
+  });
 });
