@@ -6,13 +6,15 @@ const RecipesContext = createContext({});
 export const RecipesProvider = ({ children }) => {
   const [type, setType] = useState('');
   const [arrResults, setArrResults] = useState([]);
-  // const [drinks, setDrinks] = useState([]);
+  const [dataFood, setDataFood] = useState([]);
 
   const value = {
     type,
     setType,
     arrResults,
     setArrResults,
+    setDataFood,
+    dataFood,
   };
 
   return (

@@ -8,12 +8,14 @@ import RecipeCard from '../components/RecipeCard';
 function Foods() {
   const { arrResults } = ContextRecipes();
   const maxNumber = 12;
+
   return (
     <>
       <Header titulo="Foods" showBtn />
       <Footer />
       <main>
         <h1>hello</h1>
+
         <section>
           { arrResults.slice(0, maxNumber)
             .map((food, index) => (
