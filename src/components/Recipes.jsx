@@ -23,8 +23,6 @@ function Recipes({ titulo }) {
   return (
     <div>
       { titulo === 'Foods' ? <FoodCard /> : <DrinkCard /> }
-      <h1>RECIPES</h1>
-      <h2>{ titulo }</h2>
     </div>
   );
 }

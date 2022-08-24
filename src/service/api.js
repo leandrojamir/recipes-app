@@ -13,8 +13,8 @@ export const fetchName = async (name, type) => {
     const response = await fetch(`https://www.${type}.com/api/json/v1/1/search.php?s=${name}`);
     const data = await response.json();
     return data;
-  } catch (error) {
-    console.error(error.msg);
+  } catch (err) {
+    console.error('error');
   }
 };
 
