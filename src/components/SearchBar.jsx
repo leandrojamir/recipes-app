@@ -1,32 +1,71 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { ContextRecipes } from '../context/recipesContext';
 import { fetchIngredients, fetchName, fetchLetter } from '../service/api';
 
 function SearchBar() {
-  const { type } = ContextRecipes();
+  const { type, arrResults, setArrResults } = ContextRecipes();
+  const history = useHistory();
   const [search, setSearch] = useState('');
   const [radio, setRadio] = useState('');
-
-  console.log('type:', type);
 
   const handleSearch = ({ target: { value } }) => setSearch(value);
 
   const handleRadio = ({ target: { value } }) => setRadio(value);
 
-  const searchApi = async (param) => {
-    console.log('radio:', radio);
+  // função que redireciona para página caso o item seja único
+  const productUnique = () => {
+    const rota = type.toLowerCase();
+    if (type === 'Drinks') {
+      const { idDrink } = arrResults[0];
+      history.push(`/${rota}/${idDrink}`);
+    } else {
+      const { idMeal } = arrResults[0];
+      history.push(`/${rota}/${idMeal}`);
+    }
+  };
+
+  // atualiza os estados conforme a chamada de api
+  const searchApi = async (param, key) => {
     if (radio === 'first-letter') {
       if (search.length > 1) {
         global.alert('Your search must have only 1 (one) character');
       }
-      console.log(await fetchLetter(search, param));
+      const resultLetter = await fetchLetter(search, param);
+      setArrResults(resultLetter[key]);
     }
     if (radio === 'ingredient') {
-      console.log(await fetchIngredients(search, param));
+      const resultIngredients = await fetchIngredients(search, param);
+      setArrResults(resultIngredients[key]);
     }
     if (radio === 'name') {
-      console.log(await fetchName(search, param));
+      const resultName = await fetchName(search, param);
+      setArrResults(resultName[key]);
     }
+  };
+
+  // Checa se a pesquisa trouxe um item apenas
+  const checkUnique = () => {
+    if (arrResults.length === 1) {
+      productUnique();
+    }
+  };
+
+  useEffect(() => {
+    checkUnique();
+  }, [arrResults]);
+
+  const onclickBtn = (param) => {
+    // verificação pra atualizar o estado
+    if (type === 'Drinks') {
+      searchApi(param, 'drinks');
+    }
+
+    if (type === 'Foods') {
+      searchApi(param, 'meals');
+    }
+    console.log('arrResults', arrResults);
+    // return (type === 'Drinks' ? searchApi(param, 'drinks') : searchApi(param, 'meals'));
   };
 
   return (
@@ -48,6 +87,7 @@ function SearchBar() {
         <input
           type="radio"
           data-testid="ingredient-search-radio"
+          name="Ingredient"
           id="ingredient-search"
           value="ingredient"
         />
@@ -60,6 +100,7 @@ function SearchBar() {
         <input
           type="radio"
           data-testid="name-search-radio"
+          name="Name"
           id="name-search"
           value="name"
         />
@@ -72,6 +113,7 @@ function SearchBar() {
         <input
           type="radio"
           data-testid="first-letter-search-radio"
+          name="Letter"
           id="first-letter-search"
           value="first-letter"
         />
@@ -79,7 +121,7 @@ function SearchBar() {
       <button
         type="button"
         data-testid="exec-search-btn"
-        onClick={ () => searchApi(type === 'Drinks' ? 'thecocktaildb' : 'themealdb') }
+        onClick={ () => onclickBtn(type === 'Drinks' ? 'thecocktaildb' : 'themealdb') }
       >
         Buscar
       </button>
