@@ -5,8 +5,7 @@ const RecipesContext = createContext({});
 
 export const RecipesProvider = ({ children }) => {
   const [type, setType] = useState('');
-  const [arrResults, setArrResults] = useState([]);
-  // const [drinks, setDrinks] = useState([]);
+  const [arrResults, setArrResults] = useState();
 
   const value = {
     type,

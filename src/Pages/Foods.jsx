@@ -11,11 +11,9 @@ function Foods() {
   return (
     <>
       <Header titulo="Foods" showBtn />
-      <Footer />
       <main>
-        <h1>hello</h1>
         <section>
-          { arrResults.slice(0, maxNumber)
+          { arrResults && arrResults.slice(0, maxNumber)
             .map((food, index) => (
               <Link key={ food.idMeal } to={ `/food/${food.idMeal}` }>
                 <RecipeCard
@@ -27,6 +25,7 @@ function Foods() {
             ))}
         </section>
       </main>
+      <Footer />
     </>
   );
 }

@@ -40,35 +40,36 @@ function SearchBar() {
     }
     if (radio === 'name') {
       const resultName = await fetchName(search, param);
-      setArrResults(resultName[key]);
       console.log(resultName);
+      setArrResults(resultName[key]);
     }
+  };
+
+  // Atualiza o estado
+  const onclickBtn = (param) => (type === 'Drinks'
+    ? searchApi(param, 'drinks')
+    : searchApi(param, 'meals'));
+
+  // check se array nulo
+  const checkArrayNull = () => {
+    const error = 'Sorry, we haven\'t found any recipes for these filters.';
+    return (arrResults === null ? global.alert(error) : arrResults);
   };
 
   // Checa se a pesquisa trouxe um item apenas
   const checkUnique = () => {
-    if (arrResults.length === 1) {
+    if (arrResults && arrResults.length === 1) {
       productUnique();
     }
+    return arrResults;
   };
 
   useEffect(() => {
     checkUnique();
+    checkArrayNull();
   }, [arrResults]);
 
-  const onclickBtn = (param) => {
-    // verificação pra atualizar o estado
-    if (type === 'Drinks') {
-      searchApi(param, 'drinks');
-    }
-
-    if (type === 'Foods') {
-      searchApi(param, 'meals');
-    }
-    console.log('arrResults', arrResults);
-    // return (type === 'Drinks' ? searchApi(param, 'drinks') : searchApi(param, 'meals'));
-  };
-
+  console.log('arrResults:', arrResults);
   return (
     <div>
       <label htmlFor="search">
