@@ -14,6 +14,7 @@ function Foods() {
   return (
     <>
       <Header titulo="Foods" showBtn />
+
       <main>
         <section>
           { getCategoryFoods.length > 0
