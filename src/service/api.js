@@ -39,23 +39,3 @@ export const fetchAllMeals = async () => {
   const response = data.json();
   return response;
 };
-
-export const getListCategoryFoods = async (func, number) => {
-  const response = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
-  const data = await response.json();
-  const dataFood = data.meals
-    .filter((food, index) => index < number);
-  if (dataFood.length !== 0) {
-    func([...dataFood]);
-  }
-};
-
-export const getListCategoryDrinks = async (func, number) => {
-  const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
-  const data = await response.json();
-  const dataDrinks = data.drinks
-    .filter((drink, index) => index < number);
-  if (dataDrinks.length !== 0) {
-    func([...dataDrinks]);
-  }
-};

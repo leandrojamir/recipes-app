@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { getListCategoryFoods } from '../service/api';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Recipes from '../components/Recipes';
@@ -8,17 +7,9 @@ import { ContextRecipes } from '../context/recipesContext';
 import RecipeCard from '../components/RecipeCard';
 
 function Foods() {
-  const { arrResults, setGetCategoryFoods, getCategoryFoods } = ContextRecipes();
+  const { arrResults, getCategoryFoods } = ContextRecipes();
   const maxNumber = 12;
   const maxCategory = 5;
-
-  useEffect(() => {
-    const resultFoods = async () => {
-      await getListCategoryFoods(setGetCategoryFoods, maxCategory);
-    };
-    resultFoods();
-  }, []);
-
   console.log(getCategoryFoods);
   return (
     <>
@@ -26,7 +17,7 @@ function Foods() {
       <main>
         <section>
           { getCategoryFoods.length > 0
-          && getCategoryFoods.map((food) => (
+          && getCategoryFoods.slice(0, maxCategory).map((food) => (
             <button
               type="button"
               key={ food.strCategory }
