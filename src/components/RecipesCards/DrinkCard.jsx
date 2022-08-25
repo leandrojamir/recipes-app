@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { ContextRecipes } from '../../context/recipesContext';
 import './cardStyle.css';
 
@@ -11,24 +12,30 @@ function DrinkCard() {
     <div>
       { drinksList && drinksList.drinks
         .filter((_, index) => index < maxNumberList).map((beverage, index) => (
-          <div
+          <Link
+            to={ `/drinks/${beverage.idDrink}` }
             key={ index }
-            data-testid={ `${index}-recipe-card` }
-            className="carta"
+            data-testid="shopping-cart-button"
           >
-            <img
-              data-testid={ `${index}-card-img` }
-              src={ beverage.strDrinkThumb }
-              alt={ beverage.strDrink }
-              className="foto"
-            />
-            <h5
-              data-testid={ `${index}-card-name` }
+            <div
+              key={ index }
+              data-testid={ `${index}-recipe-card` }
+              className="carta"
             >
-              { beverage.strDrink }
+              <img
+                data-testid={ `${index}-card-img` }
+                src={ beverage.strDrinkThumb }
+                alt={ beverage.strDrink }
+                className="foto"
+              />
+              <h5
+                data-testid={ `${index}-card-name` }
+              >
+                { beverage.strDrink }
 
-            </h5>
-          </div>
+              </h5>
+            </div>
+          </Link>
         ))}
     </div>
   );
