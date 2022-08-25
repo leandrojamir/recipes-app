@@ -33,7 +33,6 @@ describe('Teste do Profile', () => {
     expect(profileEmail).toBeDefined();
     expect(profileEmail).toHaveTextContent('usuário: leandrojamir@yahoo.com.br');
 
-    // adcionando teste da linha 32 para fechar 100%
     const profileDoneBtn = screen.getByTestId('profile-done-btn');
     userEvent.click(profileDoneBtn);
     const { location: { pathname } } = history;
@@ -68,7 +67,6 @@ describe('Teste do Profile', () => {
     userEvent.click(buttonEnter);
     const profileBtn = screen.getByTestId(idProfileBtn);
     userEvent.click(profileBtn);
-    // history.push('/profile');
 
     const logoutBtn = screen.getByTestId('profile-logout-btn');
     userEvent.click(logoutBtn);
