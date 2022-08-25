@@ -13,8 +13,8 @@ export const fetchName = async (name, type) => {
     const response = await fetch(`https://www.${type}.com/api/json/v1/1/search.php?s=${name}`);
     const data = await response.json();
     return data;
-  } catch (error) {
-    console.error(error.msg);
+  } catch (err) {
+    console.error('error');
   }
 };
 
@@ -36,4 +36,16 @@ export const returnFood = async () => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const fetchAllDrinks = async () => {
+  const data = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+  const response = await data.json();
+  return response;
+};
+
+export const fetchAllMeals = async () => {
+  const data = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+  const response = data.json();
+  return response;
 };

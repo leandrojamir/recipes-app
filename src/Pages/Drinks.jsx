@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import Recipes from '../components/Recipes';
 import { ContextRecipes } from '../context/recipesContext';
 import RecipeCard from '../components/RecipeCard';
 
@@ -11,11 +12,10 @@ function Drinks() {
   return (
     <>
       <Header titulo="Drinks" showBtn />
-      <Footer />
+      <Recipes titulo="Drinks" />
       <main>
-        <h1>hello</h1>
         <section>
-          { arrResults.slice(0, maxNumber)
+          { arrResults && arrResults.slice(0, maxNumber)
             .map((drink, index) => (
               <Link key={ drink.idDrink } to={ `/drinks/${drink.idDrink}` }>
                 <RecipeCard
@@ -27,6 +27,7 @@ function Drinks() {
             ))}
         </section>
       </main>
+      <Footer />
     </>
   );
 }
