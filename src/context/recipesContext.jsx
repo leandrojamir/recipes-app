@@ -17,6 +17,7 @@ export const RecipesProvider = ({ children }) => {
   const [drinksList, setDrinksList] = useState();
   const [getCategoryFoods, setGetCategoryFoods] = useState([]);
   const [getCategoryDrinks, setGetCategoryDrinks] = useState([]);
+  const [showRecipes, setShowRecipes] = useState(true);
   // const [ filterCategoryFoods, setFilterCategoryFoods] = useState([]);
   // const [ filterCategoryDrinks, setFilterCategoryDrinks] = useState([]);
 
@@ -36,6 +37,8 @@ export const RecipesProvider = ({ children }) => {
     setGetCategoryDrinks,
     getCategoryFoods,
     getCategoryDrinks,
+    showRecipes,
+    setShowRecipes,
   };
 
   return (
