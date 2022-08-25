@@ -7,7 +7,7 @@ import { ContextRecipes } from '../context/recipesContext';
 import RecipeCard from '../components/RecipeCard';
 
 function Foods() {
-  const { arrResults, getCategoryFoods } = ContextRecipes();
+  const { arrResults, getCategoryFoods, showRecipes } = ContextRecipes();
   const maxNumber = 12;
   const maxCategory = 5;
   console.log(getCategoryFoods);
@@ -29,7 +29,7 @@ function Foods() {
             </button>
           )) }
         </section>
-        <Recipes titulo="Foods" />
+        { showRecipes && <Recipes titulo="Foods" /> }
         <section>
           { arrResults && arrResults.slice(0, maxNumber)
             .map((food, index) => (
