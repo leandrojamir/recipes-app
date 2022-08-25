@@ -41,7 +41,14 @@ function Profile() {
       >
         Favorite Recipes
       </button>
-      <button data-testid="profile-logout-btn" type="button">
+      <button
+        data-testid="profile-logout-btn"
+        type="button"
+        onClick={ () => {
+          localStorage.clear();
+          history.push('/');
+        } }
+      >
         Logout
       </button>
       <Footer />

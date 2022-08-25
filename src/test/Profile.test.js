@@ -6,6 +6,7 @@ import renderWithRouter from './helpers/renderWithRouter';
 import Profile from '../Pages/Profile';
 
 describe('Teste do Profile', () => {
+  const idProfileBtn = 'profile-top-btn';
   it('45% requisito 57 e 59', () => {
     renderWithRouter(<Profile />);
     const profileEmail = screen.getByTestId('profile-email');
@@ -18,14 +19,6 @@ describe('Teste do Profile', () => {
   });
 
   it('teste profile-email requisito 58', () => {
-    // const userEmailTest = [
-    //   {
-    //     email: 'leandrojamir@yahoo.com.br',
-    //   }];
-    // const initialState = localStorage.setItem('user', JSON.stringify(userEmailTest));
-    // localStorage.clear();
-    // renderWithRouter(<App />, initialState);
-
     const { history } = renderWithRouter(<App />);
     const inputEmail = screen.getByPlaceholderText(/email/i);
     userEvent.type(inputEmail, 'leandrojamir@yahoo.com.br');
@@ -33,7 +26,7 @@ describe('Teste do Profile', () => {
     userEvent.type(inputPassword, '1234567');
     const buttonEnter = screen.getByRole('button', { name: /entrar/i });
     userEvent.click(buttonEnter);
-    const profileBtn = screen.getByTestId('profile-top-btn');
+    const profileBtn = screen.getByTestId(idProfileBtn);
     userEvent.click(profileBtn);
 
     const profileEmail = screen.getByTestId('profile-email');
@@ -56,12 +49,30 @@ describe('Teste do Profile', () => {
     userEvent.type(inputPassword, '1234567');
     const buttonEnter = screen.getByRole('button', { name: /entrar/i });
     userEvent.click(buttonEnter);
-    const profileBtn = screen.getByTestId('profile-top-btn');
+    const profileBtn = screen.getByTestId(idProfileBtn);
     userEvent.click(profileBtn);
     const favoriteBtn = screen.getByTestId('profile-favorite-btn');
     userEvent.click(favoriteBtn);
     const { location: { pathname } } = history;
 
     expect(pathname).toBe('/favorite-recipes');
+  });
+
+  it('teste requisito 62 caminho completo', () => {
+    const { history } = renderWithRouter(<App />);
+    const inputEmail = screen.getByPlaceholderText(/email/i);
+    userEvent.type(inputEmail, 'teste@teste.com');
+    const inputPassword = screen.getByPlaceholderText(/password/i);
+    userEvent.type(inputPassword, '1234567');
+    const buttonEnter = screen.getByRole('button', { name: /entrar/i });
+    userEvent.click(buttonEnter);
+    const profileBtn = screen.getByTestId(idProfileBtn);
+    userEvent.click(profileBtn);
+    // history.push('/profile');
+
+    const logoutBtn = screen.getByTestId('profile-logout-btn');
+    userEvent.click(logoutBtn);
+    const { location: { pathname } } = history;
+    expect(pathname).toBe('/');
   });
 });
