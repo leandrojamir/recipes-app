@@ -6,7 +6,7 @@ import FoodCard from './RecipesCards/FoodCard';
 import DrinkCard from './RecipesCards/DrinkCard';
 
 function Recipes({ titulo }) {
-  const { setDrinksList, setFoodsList, foodsList } = ContextRecipes();
+  const { setDrinksList, setFoodsList } = ContextRecipes();
 
   useEffect(() => {
     const getRecipes = async () => {
@@ -14,10 +14,8 @@ function Recipes({ titulo }) {
       setDrinksList(drinkApi);
       const foodApi = await fetchAllMeals();
       setFoodsList(foodApi);
-      console.log(foodApi);
     };
     getRecipes();
-    console.log(foodsList);
   }, []);
 
   return (

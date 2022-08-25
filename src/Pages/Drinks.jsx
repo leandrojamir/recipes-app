@@ -7,13 +7,26 @@ import { ContextRecipes } from '../context/recipesContext';
 import RecipeCard from '../components/RecipeCard';
 
 function Drinks() {
-  const { arrResults } = ContextRecipes();
+  const { arrResults, getCategoryDrinks } = ContextRecipes();
   const maxNumber = 12;
+  const maxCategory = 5;
+
   return (
     <>
       <Header titulo="Drinks" showBtn />
-      <Recipes titulo="Drinks" />
       <main>
+        { getCategoryDrinks.length > 0
+        && getCategoryDrinks.slice(0, maxCategory).map((drink) => (
+          <button
+            type="button"
+            key={ drink.strCategory }
+            name={ drink.strCategory }
+            data-testid={ `${drink.strCategory}-category-filter` }
+          >
+            { drink.strCategory }
+          </button>
+        ))}
+        <Recipes titulo="Drinks" />
         <section>
           { arrResults && arrResults.slice(0, maxNumber)
             .map((drink, index) => (

@@ -40,7 +40,7 @@ function SearchBar() {
     }
     if (radio === 'name') {
       const resultName = await fetchName(search, param);
-      console.log(resultName);
+
       setArrResults(resultName[key]);
     }
   };

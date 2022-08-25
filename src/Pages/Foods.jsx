@@ -7,13 +7,29 @@ import { ContextRecipes } from '../context/recipesContext';
 import RecipeCard from '../components/RecipeCard';
 
 function Foods() {
-  const { arrResults } = ContextRecipes();
+  const { arrResults, getCategoryFoods } = ContextRecipes();
   const maxNumber = 12;
+  const maxCategory = 5;
+  console.log(getCategoryFoods);
   return (
     <>
       <Header titulo="Foods" showBtn />
-      <Recipes titulo="Foods" />
+
       <main>
+        <section>
+          { getCategoryFoods.length > 0
+          && getCategoryFoods.slice(0, maxCategory).map((food) => (
+            <button
+              type="button"
+              key={ food.strCategory }
+              name={ food.strCategory }
+              data-testid={ `${food.strCategory}-category-filter` }
+            >
+              { food.strCategory }
+            </button>
+          )) }
+        </section>
+        <Recipes titulo="Foods" />
         <section>
           { arrResults && arrResults.slice(0, maxNumber)
             .map((food, index) => (
