@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Player } from '@lottiefiles/react-lottie-player';
 
 const Login = () => {
   const max = 6;
@@ -19,12 +18,6 @@ const Login = () => {
 
   return (
     <main>
-      <Player
-        autoplay
-        loop
-        src="https://assets1.lottiefiles.com/packages/lf20_bnh0nfjr.json"
-        style={ { height: '300px', width: '300px' } }
-      />
       <form action="email">
         <label htmlFor="email">
           <input
