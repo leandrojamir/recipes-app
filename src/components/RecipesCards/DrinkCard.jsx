@@ -1,5 +1,6 @@
 import React from 'react';
 import { ContextRecipes } from '../../context/recipesContext';
+import './cardStyle.css';
 
 const maxNumberList = 12;
 
@@ -13,11 +14,13 @@ function DrinkCard() {
           <div
             key={ index }
             data-testid={ `${index}-recipe-card` }
+            className="carta"
           >
             <img
               data-testid={ `${index}-card-img` }
               src={ beverage.strDrinkThumb }
               alt={ beverage.strDrink }
+              className="foto"
             />
             <h5
               data-testid={ `${index}-card-name` }
