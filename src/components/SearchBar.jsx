@@ -4,7 +4,7 @@ import { ContextRecipes } from '../context/recipesContext';
 import { fetchIngredients, fetchName, fetchLetter } from '../service/api';
 
 function SearchBar() {
-  const { type, arrResults, setArrResults } = ContextRecipes();
+  const { type, arrResults, setArrResults, setShowRecipes } = ContextRecipes();
   const history = useHistory();
   const [search, setSearch] = useState('');
   const [radio, setRadio] = useState('');
@@ -40,14 +40,20 @@ function SearchBar() {
     }
     if (radio === 'name') {
       const resultName = await fetchName(search, param);
+      console.log(resultName);
       setArrResults(resultName[key]);
     }
   };
 
   // Atualiza o estado
-  const onclickBtn = (param) => (type === 'Drinks'
-    ? searchApi(param, 'drinks')
-    : searchApi(param, 'meals'));
+  const onclickBtn = (param) => {
+    setShowRecipes(false);
+    if (type === 'Drinks') {
+      searchApi(param, 'drinks');
+    } else {
+      searchApi(param, 'meals');
+    }
+  };
 
   // check se array nulo
   const checkArrayNull = () => {

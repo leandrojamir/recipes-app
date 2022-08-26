@@ -1,5 +1,11 @@
 import React, { createContext, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
+import useResponseFilter from '../hook/useResponseFilter';
+
+const FOOD = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+const DRINK = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+const CATEGORY_FOOD = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
+const CATEGORY_DRINK = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
 
 const RecipesContext = createContext({});
 
@@ -9,7 +15,77 @@ export const RecipesProvider = ({ children }) => {
   const [arrResults, setArrResults] = useState([]);
   const [foodsList, setFoodsList] = useState();
   const [drinksList, setDrinksList] = useState();
-  // const [drinks, setDrinks] = useState([]);
+  const [selectedButtonCategory, setSelectedButtonCategory] = useState('');
+  const [getCategoryFoods, setGetCategoryFoods] = useState([]);
+  const [getCategoryDrinks, setGetCategoryDrinks] = useState([]);
+  const [filterCategoryFoods, setFilterCategoryFoods] = useState([]);
+  const [filterCategoryDrinks, setFilterCategoryDrinks] = useState([]);
+  const [showRecipes, setShowRecipes] = useState(true);
+
+  useResponseFilter(CATEGORY_FOOD, setGetCategoryFoods, 'meals');
+  useResponseFilter(CATEGORY_DRINK, setGetCategoryDrinks, 'drinks');
+
+  const handleClickCategoryFood = async ({ target }) => {
+    const { name } = target;
+    setSelectedButtonCategory(name);
+    if (name !== selectedButtonCategory) {
+      const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${name}`);
+      const data = await response.json();
+      const resultsCategoryFoods = data.meals;
+      setFilterCategoryFoods(resultsCategoryFoods);
+      setShowRecipes(false);
+    }
+    if (name === selectedButtonCategory) {
+      const response = await fetch(FOOD);
+      const data = await response.json();
+      const resultsCategoryFoods = data.meals;
+      setFilterCategoryFoods(resultsCategoryFoods);
+      setShowRecipes(false);
+    }
+  };
+
+  const handleClickCategoryDrink = async ({ target }) => {
+    const { name } = target;
+    setSelectedButtonCategory(name);
+    if (name !== selectedButtonCategory) {
+      const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${name}`);
+      const data = await response.json();
+      const resultsCategoryDrinks = data.drinks;
+      setFilterCategoryDrinks(resultsCategoryDrinks);
+      setShowRecipes(false);
+    }
+    if (name === selectedButtonCategory) {
+      const response = await fetch(DRINK);
+      const data = await response.json();
+      const resultsCategoryDrinks = data.drinks;
+      setFilterCategoryDrinks(resultsCategoryDrinks);
+      setShowRecipes(false);
+    }
+  };
+
+  const handleClickBtnAllFoods = async () => {
+    try {
+      const response = await fetch(FOOD);
+      const data = await response.json();
+      const resultsBtnAllFoods = data.meals;
+      setFilterCategoryFoods(resultsBtnAllFoods);
+      setShowRecipes(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleClickBtnAllDrinks = async () => {
+    try {
+      const response = await fetch(DRINK);
+      const data = await response.json();
+      const resultsBtnAllDrinks = data.drinks;
+      setFilterCategoryDrinks(resultsBtnAllDrinks);
+      setShowRecipes(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const value = {
     type,
@@ -20,6 +96,18 @@ export const RecipesProvider = ({ children }) => {
     setFoodsList,
     drinksList,
     setDrinksList,
+    setGetCategoryFoods,
+    setGetCategoryDrinks,
+    getCategoryFoods,
+    getCategoryDrinks,
+    filterCategoryFoods,
+    filterCategoryDrinks,
+    handleClickCategoryFood,
+    handleClickCategoryDrink,
+    handleClickBtnAllFoods,
+    handleClickBtnAllDrinks,
+    showRecipes,
+    setShowRecipes,
   };
 
   return (

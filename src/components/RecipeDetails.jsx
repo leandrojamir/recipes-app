@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 
 function RecipeDetails({ type }) {
@@ -30,7 +31,7 @@ function RecipeDetails({ type }) {
   useEffect(() => {
     if (type === 'meals') {
       getRecipe('https://www.themealdb.com/api/json/v1/1/lookup.php?i=');
-      getSugestions('https://www.themealdb.com/api/json/v1/1/search.php?s=')
+      getSugestions('https://www.themealdb.com/api/json/v1/1/search.php?s=');
     } else {
       getRecipe('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=');
       getSugestions('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
@@ -53,8 +54,6 @@ function RecipeDetails({ type }) {
       }
     });
   }
-
-  // console.log('Sugestions', sugestions);
 
   return (
     <div>
@@ -109,5 +108,9 @@ function RecipeDetails({ type }) {
     </div>
   );
 }
+
+RecipeDetails.propTypes = {
+  type: PropTypes.string.isRequired,
+};
 
 export default RecipeDetails;

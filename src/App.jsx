@@ -7,11 +7,11 @@ import { Route, Switch } from 'react-router-dom';
 import Login from './Pages/Login';
 import Foods from './Pages/Foods';
 import Drinks from './Pages/Drinks';
-import Profile from './Pages/Profile';
 import DoneRecipes from './Pages/DoneRecipes';
 import FavoriteRecipes from './Pages/FavoriteRecipes';
 import FoodsId from './Pages/FoodsID';
 import DrinksId from './Pages/DrinksID';
+import Profile from './Pages/Profile';
 
 function App() {
   return (
