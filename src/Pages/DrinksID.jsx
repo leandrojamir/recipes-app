@@ -1,13 +1,14 @@
 import React from 'react';
+import RecipeDetails from '../components/RecipeDetails';
 import FoodsRecommendation from '../components/FoodsRecommendation';
-// branch atualizada
 
 function DrinksId() {
   return (
-    <div>
+    <>
       <h1>DrinksId</h1>
+      <RecipeDetails type="drinks" />
       <FoodsRecommendation />
-    </div>
+    </>
   );
 }
 
