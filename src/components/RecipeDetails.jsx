@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import Heart from '../images/whiteHeartIcon.svg';
 import ShareButton from './ShareButton';
 import StartContinueButton from './StartContinueButton';
+import { ContextRecipes } from '../context/recipesContext';
 
 function RecipeDetails({ type }) {
   const history = useHistory();
-  const [recipe, setRecipe] = useState();
+  const { recipe, setRecipe } = ContextRecipes();
+
   // const [sugestions, setSugestions] = useState([]);
   const { location: { pathname } } = history;
   const id = pathname.replace(/[^0-9]/g, '');
