@@ -20,6 +20,7 @@ export const RecipesProvider = ({ children }) => {
   const [getCategoryDrinks, setGetCategoryDrinks] = useState([]);
   const [filterCategoryFoods, setFilterCategoryFoods] = useState([]);
   const [filterCategoryDrinks, setFilterCategoryDrinks] = useState([]);
+  const [showRecipes, setShowRecipes] = useState(true);
 
   useResponseFilter(CATEGORY_FOOD, setGetCategoryFoods, 'meals');
   useResponseFilter(CATEGORY_DRINK, setGetCategoryDrinks, 'drinks');
@@ -32,12 +33,14 @@ export const RecipesProvider = ({ children }) => {
       const data = await response.json();
       const resultsCategoryFoods = data.meals;
       setFilterCategoryFoods(resultsCategoryFoods);
+      setShowRecipes(false);
     }
     if (name === selectedButtonCategory) {
       const response = await fetch(FOOD);
       const data = await response.json();
       const resultsCategoryFoods = data.meals;
       setFilterCategoryFoods(resultsCategoryFoods);
+      setShowRecipes(false);
     }
   };
 
@@ -49,12 +52,14 @@ export const RecipesProvider = ({ children }) => {
       const data = await response.json();
       const resultsCategoryDrinks = data.drinks;
       setFilterCategoryDrinks(resultsCategoryDrinks);
+      setShowRecipes(false);
     }
     if (name === selectedButtonCategory) {
       const response = await fetch(DRINK);
       const data = await response.json();
       const resultsCategoryDrinks = data.drinks;
       setFilterCategoryDrinks(resultsCategoryDrinks);
+      setShowRecipes(false);
     }
   };
 
@@ -64,6 +69,7 @@ export const RecipesProvider = ({ children }) => {
       const data = await response.json();
       const resultsBtnAllFoods = data.meals;
       setFilterCategoryFoods(resultsBtnAllFoods);
+      setShowRecipes(false);
     } catch (error) {
       console.log(error);
     }
@@ -75,6 +81,7 @@ export const RecipesProvider = ({ children }) => {
       const data = await response.json();
       const resultsBtnAllDrinks = data.drinks;
       setFilterCategoryDrinks(resultsBtnAllDrinks);
+      setShowRecipes(false);
     } catch (error) {
       console.log(error);
     }
@@ -99,6 +106,8 @@ export const RecipesProvider = ({ children }) => {
     handleClickCategoryDrink,
     handleClickBtnAllFoods,
     handleClickBtnAllDrinks,
+    showRecipes,
+    setShowRecipes,
   };
 
   return (

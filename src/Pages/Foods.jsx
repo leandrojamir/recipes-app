@@ -13,7 +13,9 @@ function Foods() {
     filterCategoryFoods,
     handleClickCategoryFood,
     handleClickBtnAllFoods,
+    showRecipes,
   } = ContextRecipes();
+
   const maxNumber = 12;
   const maxCategory = 5;
   console.log(filterCategoryFoods.length);
@@ -65,11 +67,11 @@ function Foods() {
               </div>
             ))}
         </section>
-        <Recipes titulo="Foods" />
+        { showRecipes && <Recipes titulo="Foods" /> }
         <section>
           { arrResults && arrResults.slice(0, maxNumber)
             .map((food, index) => (
-              <Link key={ food.idMeal } to={ `/food/${food.idMeal}` }>
+              <Link key={ food.idMeal } to={ `/foods/${food.idMeal}` }>
                 <RecipeCard
                   img={ food.strMealThumb }
                   name={ food.strMeal }

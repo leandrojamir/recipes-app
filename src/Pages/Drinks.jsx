@@ -13,7 +13,9 @@ function Drinks() {
     handleClickCategoryDrink,
     filterCategoryDrinks,
     handleClickBtnAllDrinks,
+    showRecipes,
   } = ContextRecipes();
+
   const maxNumber = 12;
   const maxCategory = 5;
   console.log(filterCategoryDrinks);
@@ -29,6 +31,7 @@ function Drinks() {
           >
             All
           </button>
+
           { getCategoryDrinks.length > 0
           && getCategoryDrinks.slice(0, maxCategory).map((drink) => (
             <button
@@ -42,6 +45,9 @@ function Drinks() {
             </button>
           ))}
         </section>
+
+        { showRecipes && <Recipes titulo="Drinks" /> }
+
         <section>
           { arrResults && arrResults.slice(0, maxNumber)
             .map((drink, index) => (
@@ -75,7 +81,6 @@ function Drinks() {
                 </div>
               ))}
         </section>
-        <Recipes titulo="Drinks" />
       </main>
       <Footer />
     </>
