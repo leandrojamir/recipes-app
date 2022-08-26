@@ -1,35 +1,46 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { fetchAllMeals } from '../service/api';
 
 function RecipeDetails({ type }) {
   const history = useHistory();
   const [recipe, setRecipe] = useState();
-  // const [ingredients, setIngredients] = useState([]);
+  const [sugestions, setSugestions] = useState([]);
   const { location: { pathname } } = history;
   const id = pathname.replace(/[^0-9]/g, '');
-  // console.log(id);
 
   const getRecipe = async (url) => {
     const result = await fetch(`${url}${id}`);
     const data = await result.json();
     setRecipe(data[type][0]);
-    console.log(data[type][0]);
-    console.log(await fetchAllMeals());
+  };
+
+  const getSugestions = async (url) => {
+    const maxNumber = 6;
+    const variavel = 0.5;
+    const result = await fetch(url);
+    const data = await result.json();
+    const dataSugestions = data[type];
+    // embaralhar as sugestões vinda da api
+    const sugestionsSort = dataSugestions
+      .sort(() => Math.random() - variavel)
+      .slice(0, maxNumber);
+    setSugestions(sugestionsSort);
   };
 
   useEffect(() => {
     if (type === 'meals') {
       getRecipe('https://www.themealdb.com/api/json/v1/1/lookup.php?i=');
+      getSugestions('https://www.themealdb.com/api/json/v1/1/search.php?s=')
     } else {
       getRecipe('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=');
+      getSugestions('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
     }
   }, []);
 
-  console.log('Recipe', recipe);
-
   const arrIngredients = [];
   const arrQuantidades = [];
+
+  console.log('sugestions', sugestions);
 
   if (recipe) {
     const arrRecipes = Object.entries(recipe);
@@ -43,20 +54,31 @@ function RecipeDetails({ type }) {
     });
   }
 
-  console.log(arrIngredients);
-  console.log(arrQuantidades);
+  // console.log('Sugestions', sugestions);
 
   return (
     <div>
       { recipe && (
         <>
-          <h1 data-testid="recipe-title">{ recipe?.strMeal }</h1>
+          <h1 data-testid="recipe-title">
+            { type === 'meals'
+              ? recipe?.strMeal
+              : recipe?.strDrink }
+          </h1>
+          <h2 data-testid="recipe-category">
+            { type === 'meals'
+              ? recipe?.strCategory
+              : recipe?.strAlcoholic }
+          </h2>
           <img
             data-testid="recipe-photo"
-            src={ recipe?.strMealThumb }
-            alt={ recipe?.strArea }
+            src={ type === 'meals'
+              ? recipe?.strMealThumb
+              : recipe?.strDrinkThumb }
+            alt={ type === 'meals'
+              ? recipe?.strMeal
+              : recipe?.strDrink }
           />
-          <p data-testid="recipe-category">{recipe?.strCategory}</p>
           { arrIngredients.map((e, index) => (
             <p
               key={ index }
@@ -66,7 +88,15 @@ function RecipeDetails({ type }) {
             </p>
           )) }
           <p data-testid="instructions">{recipe?.strInstructions}</p>
-          <p data-testid="${0}-recomendation-card">{recipe?.strTags}</p>
+          <p>Sugestions</p>
+          { sugestions.map((e, index) => (
+            <p
+              key={ index }
+              data-testid={ `${index}-recomendation-card` }
+            >
+              { type === 'meals' ? e.strMeal : e.strDrink }
+            </p>
+          )) }
           <video
             width="400"
             controls="controls"
