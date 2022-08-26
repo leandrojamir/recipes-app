@@ -7,26 +7,47 @@ import { ContextRecipes } from '../context/recipesContext';
 import RecipeCard from '../components/RecipeCard';
 
 function Drinks() {
-  const { arrResults, getCategoryDrinks, showRecipes } = ContextRecipes();
+  const {
+    arrResults,
+    getCategoryDrinks,
+    handleClickCategoryDrink,
+    filterCategoryDrinks,
+    handleClickBtnAllDrinks,
+    showRecipes,
+  } = ContextRecipes();
+
   const maxNumber = 12;
   const maxCategory = 5;
-
+  console.log(filterCategoryDrinks);
   return (
     <>
       <Header titulo="Drinks" showBtn />
       <main>
-        { getCategoryDrinks.length > 0
-        && getCategoryDrinks.slice(0, maxCategory).map((drink) => (
+        <section>
           <button
             type="button"
-            key={ drink.strCategory }
-            name={ drink.strCategory }
-            data-testid={ `${drink.strCategory}-category-filter` }
+            data-testid="All-category-filter"
+            onClick={ handleClickBtnAllDrinks }
           >
-            { drink.strCategory }
+            All
           </button>
-        ))}
+
+          { getCategoryDrinks.length > 0
+          && getCategoryDrinks.slice(0, maxCategory).map((drink) => (
+            <button
+              type="button"
+              key={ drink.strCategory }
+              name={ drink.strCategory }
+              onClick={ handleClickCategoryDrink }
+              data-testid={ `${drink.strCategory}-category-filter` }
+            >
+              { drink.strCategory }
+            </button>
+          ))}
+        </section>
+
         { showRecipes && <Recipes titulo="Drinks" /> }
+
         <section>
           { arrResults && arrResults.slice(0, maxNumber)
             .map((drink, index) => (
@@ -38,6 +59,27 @@ function Drinks() {
                 />
               </Link>
             ))}
+        </section>
+        <section>
+          { filterCategoryDrinks
+            && filterCategoryDrinks.slice(0, maxNumber)
+              .map((drink, index) => (
+                <div
+                  data-testid={ `${index}-recipe-card` }
+                  key={ drink.strDrink }
+                >
+                  <img
+                    data-testid={ `${index}-card-img` }
+                    src={ drink.strDrinkThumb }
+                    alt={ drink.strDrink }
+                  />
+                  <p
+                    data-testid={ `${index}-card-name` }
+                  >
+                    { drink.strDrink }
+                  </p>
+                </div>
+              ))}
         </section>
       </main>
       <Footer />
