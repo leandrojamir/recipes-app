@@ -43,8 +43,6 @@ function RecipeDetails({ type }) {
   const arrIngredients = [];
   const arrQuantidades = [];
 
-  // console.log('sugestions', sugestions);
-
   if (recipe) {
     const arrRecipes = Object.entries(recipe);
     arrRecipes.forEach((e) => {
