@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
+import Heart from '../images/whiteHeartIcon.svg';
+import ShareButton from './ShareButton';
 
 function RecipeDetails({ type }) {
   const history = useHistory();
@@ -78,6 +80,12 @@ function RecipeDetails({ type }) {
               ? recipe?.strMeal
               : recipe?.strDrink }
           />
+          <div>
+            <ShareButton />
+            <button type="button" data-testid="favorite-btn">
+              <img src={ Heart } alt="coracao" />
+            </button>
+          </div>
           { arrIngredients.map((e, index) => (
             <p
               key={ index }
