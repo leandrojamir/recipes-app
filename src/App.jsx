@@ -12,6 +12,7 @@ import FavoriteRecipes from './Pages/FavoriteRecipes';
 import FoodsId from './Pages/FoodsID';
 import DrinksId from './Pages/DrinksID';
 import Profile from './Pages/Profile';
+import RecipeInProgress from './components/RecipeInProgress';
 
 function App() {
   return (
@@ -22,6 +23,11 @@ function App() {
       <Route exact path="/drinks" render={ (props) => <Drinks { ...props } /> } />
       <Route exact path="/drinks/:id" render={ (props) => <DrinksId { ...props } /> } />
       <Route exact path="/profile" render={ (props) => <Profile { ...props } /> } />
+      <Route
+        exact
+        path="/recipeInProgress"
+        render={ (props) => <RecipeInProgress { ...props } /> }
+      />
       <Route
         exact
         path="/done-recipes"

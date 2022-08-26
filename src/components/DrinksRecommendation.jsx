@@ -12,6 +12,7 @@ function DrinksRecommendation() {
   useEffect(() => {
     const getRecipes = async () => {
       const drinkApi = await fetchAllDrinks();
+      console.log('drinkApi', drinkApi);
       setDrinksList(drinkApi);
     };
     getRecipes();
