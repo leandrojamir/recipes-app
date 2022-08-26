@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import Heart from '../images/whiteHeartIcon.svg';
 import ShareButton from './ShareButton';
+import StartContinueButton from './StartContinueButton';
 
 function RecipeDetails({ type }) {
   const history = useHistory();
@@ -111,6 +112,7 @@ function RecipeDetails({ type }) {
           </video>
         </>
       ) }
+      <StartContinueButton />
     </div>
   );
 }
