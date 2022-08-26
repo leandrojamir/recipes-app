@@ -25,7 +25,7 @@ function App() {
       <Route exact path="/profile" render={ (props) => <Profile { ...props } /> } />
       <Route
         exact
-        path="/recipeInProgress"
+        path="/in-progress"
         render={ (props) => <RecipeInProgress { ...props } /> }
       />
       <Route
