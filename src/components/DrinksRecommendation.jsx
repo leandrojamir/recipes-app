@@ -20,7 +20,7 @@ function DrinksRecommendation() {
   return (
     <div
       className="scrollmenu"
-      data-testid="recomendation-card"
+      data-testid="recomendations-cards"
     >
       { drinksList && drinksList.drinks
         .filter((_, index) => index < maxNumberList).map((beverage, index) => (

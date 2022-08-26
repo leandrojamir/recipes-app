@@ -20,12 +20,12 @@ function FoodsRecommendation() {
   return (
     <div
       className="scrollmenu"
-      data-testid="recomendation-card"
+      data-testid="recomendations-cards"
     >
       { foodsList && foodsList.meals
         .filter((_, index) => index < maxNumberList).map((food, index) => (
           <Link
-            to={ `/drinks/${food.idMeal}` }
+            to={ `/foods/${food.idMeal}` }
             key={ index }
           >
             <div
