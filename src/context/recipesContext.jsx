@@ -22,6 +22,14 @@ export const RecipesProvider = ({ children }) => {
   const [filterCategoryDrinks, setFilterCategoryDrinks] = useState([]);
   const [showRecipes, setShowRecipes] = useState(true);
   const [recipe, setRecipe] = useState();
+  const [inProgressList, setInProgressList] = useState(
+    JSON.parse(localStorage.getItem('inProgressRecipes')) === null
+      ? ''
+      : JSON.parse(localStorage.getItem('inProgressRecipes')),
+  );
+
+  const key = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  console.log('key', key);
 
   useResponseFilter(CATEGORY_FOOD, setGetCategoryFoods, 'meals');
   useResponseFilter(CATEGORY_DRINK, setGetCategoryDrinks, 'drinks');
@@ -111,6 +119,8 @@ export const RecipesProvider = ({ children }) => {
     setShowRecipes,
     recipe,
     setRecipe,
+    inProgressList,
+    setInProgressList,
   };
 
   return (

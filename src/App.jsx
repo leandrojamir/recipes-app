@@ -12,6 +12,7 @@ import FavoriteRecipes from './Pages/FavoriteRecipes';
 import FoodsId from './Pages/FoodsID';
 import DrinksId from './Pages/DrinksID';
 import Profile from './Pages/Profile';
+import RecipeInProgress from './components/RecipeInProgress';
 
 function App() {
   return (

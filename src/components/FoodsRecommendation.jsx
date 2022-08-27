@@ -12,7 +12,6 @@ function FoodsRecommendation() {
   useEffect(() => {
     const getRecipes = async () => {
       const foodApi = await fetchAllMeals();
-      console.log('foodApi', foodApi);
       setFoodsList(foodApi);
     };
     getRecipes();
