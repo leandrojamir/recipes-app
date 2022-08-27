@@ -18,7 +18,8 @@ function Foods() {
 
   const maxNumber = 12;
   const maxCategory = 5;
-  console.log(filterCategoryFoods.length);
+  // console.log(filterCategoryFoods.length);
+
   return (
     <>
       <Header titulo="Foods" showBtn />

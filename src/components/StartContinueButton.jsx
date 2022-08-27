@@ -23,9 +23,6 @@ function StartContinueButton({ type }) {
     );
   }
 
-  console.log('Recipes', recipe);
-  console.log('inProgress', inProgressList);
-
   return (
     <button
       data-testid="start-recipe-btn"

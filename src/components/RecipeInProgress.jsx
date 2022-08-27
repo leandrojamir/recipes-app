@@ -5,15 +5,10 @@ import { ContextRecipes } from '../context/recipesContext';
 
 function RecipeInProgress() {
   const { inProgressList } = ContextRecipes();
-  // const [recipes, setRecipes] = useState([]);
-  // const [checkbox, setCheckbox] = useState(checked);
-  // receber dados do localStore
-  // const recipes = JSON.parse(localStorage.getItem('recipeInProgress'));
-  // console.log('localstores', recipes);
-  // setCheckbox(checked);
-  // console.log(checkbox);
+
   console.log('inProgress', inProgressList);
   localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressList));
+
   return (
     <div>
       <h1 data-testid="recipe-title">Titulo</h1>

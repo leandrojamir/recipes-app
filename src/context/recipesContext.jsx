@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import useResponseFilter from '../hook/useResponseFilter';
 
@@ -22,14 +22,27 @@ export const RecipesProvider = ({ children }) => {
   const [filterCategoryDrinks, setFilterCategoryDrinks] = useState([]);
   const [showRecipes, setShowRecipes] = useState(true);
   const [recipe, setRecipe] = useState();
-  const [inProgressList, setInProgressList] = useState(
-    JSON.parse(localStorage.getItem('inProgressRecipes')) === null
-      ? ''
-      : JSON.parse(localStorage.getItem('inProgressRecipes')),
-  );
+  const [inProgressList, setInProgressList] = useState();
 
-  const key = JSON.parse(localStorage.getItem('inProgressRecipes'));
-  console.log('key', key);
+  // setando o estado inicial conforme o que esta salvo na chave 'inProgressRecipes'
+  // const key = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  // console.log('keyLocal', key);
+  const keyName = window.localStorage;
+  console.log('keyName', keyName);
+
+  const initialKey = () => {
+    if (window.localStorage.inProgressRecipes === 'undefined') {
+      setInProgressList('');
+    } else {
+      console.log('Local', JSON.parse(localStorage.getItem('inProgressRecipes')));
+      const key = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      setInProgressList(key);
+    }
+  };
+
+  useEffect(() => {
+    initialKey();
+  }, []);
 
   useResponseFilter(CATEGORY_FOOD, setGetCategoryFoods, 'meals');
   useResponseFilter(CATEGORY_DRINK, setGetCategoryDrinks, 'drinks');
