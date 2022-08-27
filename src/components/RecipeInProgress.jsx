@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 
