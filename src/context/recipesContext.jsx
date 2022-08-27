@@ -21,6 +21,7 @@ export const RecipesProvider = ({ children }) => {
   const [filterCategoryFoods, setFilterCategoryFoods] = useState([]);
   const [filterCategoryDrinks, setFilterCategoryDrinks] = useState([]);
   const [showRecipes, setShowRecipes] = useState(true);
+  const [recipe, setRecipe] = useState();
 
   useResponseFilter(CATEGORY_FOOD, setGetCategoryFoods, 'meals');
   useResponseFilter(CATEGORY_DRINK, setGetCategoryDrinks, 'drinks');
@@ -108,6 +109,8 @@ export const RecipesProvider = ({ children }) => {
     handleClickBtnAllDrinks,
     showRecipes,
     setShowRecipes,
+    recipe,
+    setRecipe,
   };
 
   return (

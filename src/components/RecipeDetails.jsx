@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import Heart from '../images/whiteHeartIcon.svg';
-import Share from '../images/shareIcon.svg';
+import ShareButton from './ShareButton';
+import StartContinueButton from './StartContinueButton';
+import { ContextRecipes } from '../context/recipesContext';
 
 function RecipeDetails({ type }) {
   const history = useHistory();
-  const [recipe, setRecipe] = useState();
-  const [sugestions, setSugestions] = useState([]);
+  const { recipe, setRecipe } = ContextRecipes();
+
+  // const [sugestions, setSugestions] = useState([]);
   const { location: { pathname } } = history;
   const id = pathname.replace(/[^0-9]/g, '');
 
@@ -17,33 +20,32 @@ function RecipeDetails({ type }) {
     setRecipe(data[type][0]);
   };
 
-  const getSugestions = async (url) => {
-    const maxNumber = 6;
-    const variavel = 0.5;
-    const result = await fetch(url);
-    const data = await result.json();
-    const dataSugestions = data[type];
-    // embaralhar as sugestões vinda da api
-    const sugestionsSort = dataSugestions
-      .sort(() => Math.random() - variavel)
-      .slice(0, maxNumber);
-    setSugestions(sugestionsSort);
-  };
+  // const getSugestions = async (url) => {
+  //   const maxNumber = 6;
+  //   const variavel = 0.5;
+  //   const result = await fetch(url);
+  //   const data = await result.json();
+  //   const dataSugestions = data[type];
+  //   // embaralhar as sugestões vinda da api
+  //   const sugestionsSort = dataSugestions
+  //     .sort(() => Math.random() - variavel)
+  //     .slice(0, maxNumber);
+  //   setSugestions(sugestionsSort);
+  // };
 
   useEffect(() => {
     if (type === 'meals') {
       getRecipe('https://www.themealdb.com/api/json/v1/1/lookup.php?i=');
-      getSugestions('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+      // getSugestions('https://www.themealdb.com/api/json/v1/1/search.php?s=');
     } else {
       getRecipe('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=');
-      getSugestions('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+      // getSugestions('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
     }
   }, []);
 
   const arrIngredients = [];
   const arrQuantidades = [];
-
-  console.log('sugestions', sugestions);
+  // console.log(recipe);
 
   if (recipe) {
     const arrRecipes = Object.entries(recipe);
@@ -81,9 +83,7 @@ function RecipeDetails({ type }) {
               : recipe?.strDrink }
           />
           <div>
-            <button type="button" data-testid="share-btn">
-              <img src={ Share } alt="compaertilhar" />
-            </button>
+            <ShareButton />
             <button type="button" data-testid="favorite-btn">
               <img src={ Heart } alt="coracao" />
             </button>
@@ -97,7 +97,7 @@ function RecipeDetails({ type }) {
             </p>
           )) }
           <p data-testid="instructions">{recipe?.strInstructions}</p>
-          <p>Sugestions</p>
+          {/* <p>Sugestions</p>
           { sugestions.map((e, index) => (
             <p
               key={ index }
@@ -105,7 +105,7 @@ function RecipeDetails({ type }) {
             >
               { type === 'meals' ? e.strMeal : e.strDrink }
             </p>
-          )) }
+          )) } */}
           <video
             width="400"
             controls="controls"
@@ -115,6 +115,7 @@ function RecipeDetails({ type }) {
           </video>
         </>
       ) }
+      <StartContinueButton type={ type } />
     </div>
   );
 }
