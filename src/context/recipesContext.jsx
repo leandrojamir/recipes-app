@@ -22,6 +22,7 @@ export const RecipesProvider = ({ children }) => {
   const [filterCategoryDrinks, setFilterCategoryDrinks] = useState([]);
   const [showRecipes, setShowRecipes] = useState(true);
   const [recipe, setRecipe] = useState();
+  const [favoriteRecipes, setFavoriteRecipes] = useState([]);
 
   useResponseFilter(CATEGORY_FOOD, setGetCategoryFoods, 'meals');
   useResponseFilter(CATEGORY_DRINK, setGetCategoryDrinks, 'drinks');
@@ -111,6 +112,8 @@ export const RecipesProvider = ({ children }) => {
     setShowRecipes,
     recipe,
     setRecipe,
+    favoriteRecipes,
+    setFavoriteRecipes,
   };
 
   return (
