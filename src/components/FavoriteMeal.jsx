@@ -1,12 +1,12 @@
 import React from 'react';
 import { ContextRecipes } from '../context/recipesContext';
-// import useLocalStorage from '../hook/useLocalStorage';
 import Heart from '../images/whiteHeartIcon.svg';
 
-export default function FavoriteFood() {
+export default function FavoriteMeal() {
   const { recipe } = ContextRecipes();
-  const handleClickFavoriteFood = () => {
-    const favoriteFood = {
+  console.log(recipe);
+  const handleClickFavoriteMeals = () => {
+    const favoriteMeal = {
       id: recipe?.idMeal,
       type: 'food',
       nationality: recipe?.strArea,
@@ -15,17 +15,14 @@ export default function FavoriteFood() {
       name: recipe?.strMeal,
       image: recipe?.strMealThumb,
     };
-    console.log(favoriteFood);
-
     let favoriteRecipes = JSON.parse(
       localStorage.getItem('favoriteRecipes'),
     );
     if (!favoriteRecipes) {
       favoriteRecipes = [];
     }
-    console.log(favoriteRecipes);
     localStorage.setItem(
-      'favoriteRecipes', JSON.stringify([...favoriteRecipes, favoriteFood]),
+      'favoriteRecipes', JSON.stringify([...favoriteRecipes, favoriteMeal]),
     );
   };
   return (
@@ -33,8 +30,9 @@ export default function FavoriteFood() {
       <button
         type="button"
         data-testid="favorite-btn"
-        onClick={ handleClickFavoriteFood }
+        onClick={ handleClickFavoriteMeals }
       >
+
         <img src={ Heart } alt="coracao" />
       </button>
     </div>
