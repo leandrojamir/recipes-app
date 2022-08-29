@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import Heart from '../images/whiteHeartIcon.svg';
 import ShareButton from './ShareButton';
 import StartContinueButton from './StartContinueButton';
 import { ContextRecipes } from '../context/recipesContext';
+import FavoriteDrink from './FavoriteDrink';
+import FavoriteMeal from './FavoriteMeal';
 
 function RecipeDetails({ type }) {
   const history = useHistory();
@@ -74,7 +75,7 @@ function RecipeDetails({ type }) {
           </h2>
           <img
             data-testid="recipe-photo"
-            src={ type === 'meals'
+            src={ type === 'meal'
               ? recipe?.strMealThumb
               : recipe?.strDrinkThumb }
             alt={ type === 'meals'
@@ -83,9 +84,7 @@ function RecipeDetails({ type }) {
           />
           <div>
             <ShareButton />
-            <button type="button" data-testid="favorite-btn">
-              <img src={ Heart } alt="coracao" />
-            </button>
+            {type === 'meals' ? <FavoriteMeal /> : <FavoriteDrink />}
           </div>
           { arrIngredients.map((e, index) => (
             <p
