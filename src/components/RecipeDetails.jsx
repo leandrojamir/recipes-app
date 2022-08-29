@@ -46,6 +46,7 @@ function RecipeDetails({ type }) {
 
   const arrIngredients = [];
   const arrQuantidades = [];
+  // console.log(recipe);
 
   if (recipe) {
     const arrRecipes = Object.entries(recipe);
@@ -113,7 +114,7 @@ function RecipeDetails({ type }) {
           </video>
         </>
       ) }
-      <StartContinueButton />
+      <StartContinueButton type={ type } />
     </div>
   );
 }
