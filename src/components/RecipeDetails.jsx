@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import ShareButton from './ShareButton';
@@ -10,6 +10,7 @@ import FavoriteMeal from './FavoriteMeal';
 function RecipeDetails({ type }) {
   const history = useHistory();
   const { recipe, setRecipe } = ContextRecipes();
+  const [showDone, setShowDone] = useState(true);
 
   // const [sugestions, setSugestions] = useState([]);
   const { location: { pathname } } = history;
@@ -34,6 +35,12 @@ function RecipeDetails({ type }) {
   //   setSugestions(sugestionsSort);
   // };
 
+  function checkDone() {
+    const getDoneRecipes = localStorage.getItem('doneRecipes') || [];
+    const checkSome = getDoneRecipes.some((done) => done.id === id);
+    setShowDone(checkSome);
+  }
+
   useEffect(() => {
     if (type === 'meals') {
       getRecipe('https://www.themealdb.com/api/json/v1/1/lookup.php?i=');
@@ -42,6 +49,7 @@ function RecipeDetails({ type }) {
       getRecipe('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=');
       // getSugestions('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
     }
+    checkDone();
   }, []);
 
   const arrIngredients = [];
@@ -116,7 +124,7 @@ function RecipeDetails({ type }) {
           </video>
         </>
       ) }
-      <StartContinueButton type={ type } />
+      { !showDone && <StartContinueButton type={ type } /> }
     </div>
   );
 }
