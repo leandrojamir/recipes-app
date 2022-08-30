@@ -25,11 +25,6 @@ function App() {
       <Route exact path="/profile" render={ (props) => <Profile { ...props } /> } />
       <Route
         exact
-        path="/in-progress"
-        render={ (props) => <RecipeInProgress { ...props } /> }
-      />
-      <Route
-        exact
         path="/done-recipes"
         render={ (props) => <DoneRecipes { ...props } /> }
       />

@@ -18,7 +18,6 @@ function Drinks() {
 
   const maxNumber = 12;
   const maxCategory = 5;
-  // console.log(filterCategoryDrinks);
 
   return (
     <>

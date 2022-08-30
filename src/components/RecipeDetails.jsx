@@ -10,7 +10,6 @@ function RecipeDetails({ type }) {
   const history = useHistory();
   const { recipe, setRecipe } = ContextRecipes();
 
-  // const [sugestions, setSugestions] = useState([]);
   const { location: { pathname } } = history;
   const id = pathname.replace(/[^0-9]/g, '');
 
@@ -19,19 +18,6 @@ function RecipeDetails({ type }) {
     const data = await result.json();
     setRecipe(data[type][0]);
   };
-
-  // const getSugestions = async (url) => {
-  //   const maxNumber = 6;
-  //   const variavel = 0.5;
-  //   const result = await fetch(url);
-  //   const data = await result.json();
-  //   const dataSugestions = data[type];
-  //   // embaralhar as sugestões vinda da api
-  //   const sugestionsSort = dataSugestions
-  //     .sort(() => Math.random() - variavel)
-  //     .slice(0, maxNumber);
-  //   setSugestions(sugestionsSort);
-  // };
 
   useEffect(() => {
     if (type === 'meals') {
@@ -45,15 +31,17 @@ function RecipeDetails({ type }) {
 
   const arrIngredients = [];
   const arrQuantidades = [];
-  // console.log(recipe);
+  console.log(recipe);
 
+  // logica para pegar os valores dos ingredientes e quantidades do Recipe
   if (recipe) {
     const arrRecipes = Object.entries(recipe);
     arrRecipes.forEach((e) => {
-      if (e[0].includes('strIngredient') && e[1] !== null && e[1] !== '') {
+      // '' and null -> false
+      if (e[0].includes('strIngredient') && e[1]) {
         arrIngredients.push(e[1]);
       }
-      if (e[0].includes('strMeasure') && e[1] !== null && e[1] !== '') {
+      if (e[0].includes('strMeasure') && e[1]) {
         arrQuantidades.push(e[1]);
       }
     });
@@ -64,23 +52,15 @@ function RecipeDetails({ type }) {
       { recipe && (
         <>
           <h1 data-testid="recipe-title">
-            { type === 'meals'
-              ? recipe?.strMeal
-              : recipe?.strDrink }
+            { recipe?.strMeal || recipe?.strDrink }
           </h1>
           <h2 data-testid="recipe-category">
-            { type === 'meals'
-              ? recipe?.strCategory
-              : recipe?.strAlcoholic }
+            { recipe?.strCategory || recipe?.strAlcoholic }
           </h2>
           <img
             data-testid="recipe-photo"
-            src={ type === 'meals'
-              ? recipe?.strMealThumb
-              : recipe?.strDrinkThumb }
-            alt={ type === 'meals'
-              ? recipe?.strMeal
-              : recipe?.strDrink }
+            src={ recipe?.strMealThumb || recipe?.strDrinkThumb }
+            alt={ recipe?.strMeal || recipe?.strDrink }
           />
           <div>
             <ShareButton />
@@ -97,15 +77,6 @@ function RecipeDetails({ type }) {
             </p>
           )) }
           <p data-testid="instructions">{recipe?.strInstructions}</p>
-          {/* <p>Sugestions</p>
-          { sugestions.map((e, index) => (
-            <p
-              key={ index }
-              data-testid={ `${index}-recomendation-card` }
-            >
-              { type === 'meals' ? e.strMeal : e.strDrink }
-            </p>
-          )) } */}
           <video
             width="400"
             controls="controls"
