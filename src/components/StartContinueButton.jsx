@@ -29,7 +29,7 @@ function StartContinueButton({ type }) {
       }
     });
 
-    // localStorage.setItem('inProgressRecipes', JSON.stringify([...getProgress, recipe]));
+    // localStorage.setItem('inProgressRecipes', JSON.stringify([...getProgress, recipe]
 
     if (type === 'meals') {
       history.push(`/foods/${id}/in-progress`);
