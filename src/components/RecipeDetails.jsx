@@ -76,7 +76,7 @@ function RecipeDetails({ type }) {
           </h2>
           <img
             data-testid="recipe-photo"
-            src={ type === 'meal'
+            src={ type === 'meals'
               ? recipe?.strMealThumb
               : recipe?.strDrinkThumb }
             alt={ type === 'meals'
