@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import ShareButton from './ShareButton';
+import FavoriteDrink from './FavoriteDrink';
 import StartContinueButton from './StartContinueButton';
 import { ContextRecipes } from '../context/recipesContext';
-import FavoriteDrink from './FavoriteDrink';
 import FavoriteMeal from './FavoriteMeal';
 
 function RecipeDetails({ type }) {
@@ -76,7 +76,7 @@ function RecipeDetails({ type }) {
           </h2>
           <img
             data-testid="recipe-photo"
-            src={ type === 'meal'
+            src={ type === 'meals'
               ? recipe?.strMealThumb
               : recipe?.strDrinkThumb }
             alt={ type === 'meals'
@@ -85,7 +85,9 @@ function RecipeDetails({ type }) {
           />
           <div>
             <ShareButton />
+
             {type === 'meals' ? <FavoriteMeal /> : <FavoriteDrink />}
+
           </div>
           { arrIngredients.map((e, index) => (
             <p
