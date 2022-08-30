@@ -33,7 +33,7 @@ export default function FavoriteDrink() {
     // );
   };
 
-  const handleClickRemoveFavoritesRecipes = () => {
+  const handleClickRemoveFavoriteRecipe = () => {
     const filterFavorite = recipeDrink
       .filter((item) => item.id !== recipe.idDrink);
     setRecipeDrink(filterFavorite);
@@ -43,7 +43,7 @@ export default function FavoriteDrink() {
       { recipeDrink.some((recipeID) => recipeID.id === recipe.idDrink) ? (
         <button
           type="button"
-          onClick={ handleClickRemoveFavoritesRecipes }
+          onClick={ handleClickRemoveFavoriteRecipe }
         >
           <img
             src={ HeartBlack }

@@ -38,7 +38,7 @@ export default function FavoriteMeal() {
     ]);
   };
 
-  const handleClickRemoveFavoritesRecipes = () => {
+  const handleClickRemoveFavoriteRecipe = () => {
     const filterFavorite = recipesFood
       .filter((item) => item.id !== recipe.idMeal);
     setRecipesFood(filterFavorite);
@@ -49,7 +49,7 @@ export default function FavoriteMeal() {
       { recipesFood?.some((recipeId) => recipeId.id === recipe.idMeal) ? (
         <button
           type="button"
-          onClick={ handleClickRemoveFavoritesRecipes }
+          onClick={ handleClickRemoveFavoriteRecipe }
         >
 
           <img
