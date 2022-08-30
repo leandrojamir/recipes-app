@@ -27,6 +27,20 @@ export const RecipesProvider = ({ children }) => {
   useResponseFilter(CATEGORY_FOOD, setGetCategoryFoods, 'meals');
   useResponseFilter(CATEGORY_DRINK, setGetCategoryDrinks, 'drinks');
 
+  // const initialKey = () => {
+  //   if (window.localStorage.inProgressRecipes === 'undefined') {
+  //     setInProgressList('');
+  //   } else {
+  //     console.log('Local', JSON.parse(localStorage.getItem('inProgressRecipes')));
+  //     const key = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  //     setInProgressList(key);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   initialKey();
+  // }, []);
+
   const handleClickCategoryFood = async ({ target }) => {
     const { name } = target;
     setSelectedButtonCategory(name);
