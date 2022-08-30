@@ -92,6 +92,7 @@ function DoneRecipes() {
             {/* cy.get('[data-testid="0-horizontal-top-text"]')
         .contains(`${doneRecipes[0].nationality} - ${doneRecipes[0].category}`); */}
             { `${element.nationality} - ${element.category}` }
+            {element.alcoholicOrNot}
           </div>
           {/* O texto da data que a receita foi feita deve ter o atributo data-testid="${index}-horizontal-done-date"; */}
           <div data-testid={ `${index}-horizontal-done-date` }>
