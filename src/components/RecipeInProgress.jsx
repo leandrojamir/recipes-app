@@ -50,10 +50,10 @@ function RecipeInProgress() {
 
   const isCheckedItem = (item) => {
     if (checkedList.length !== 0 && checkedList.includes(item)) {
-      console.log('checked');
+      // console.log('checked');
       return 'checked';
     }
-    console.log('no-checked');
+    // console.log('no-checked');
     return 'noChecked';
   };
 
