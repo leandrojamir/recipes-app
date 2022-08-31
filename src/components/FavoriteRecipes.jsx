@@ -68,20 +68,22 @@ const FavoritesRecipes = () => {
           Drink
         </button>
       </div>
-      { favorites && favorites.length > 0 && favorites
+      { favorites.length > 0 && favorites
         .map((item, index) => (
           <div
             key={ item?.id }
-            data-testid={ `${index}-horizontal-image` }
           >
+            { console.log(item?.image, 'hello') }
             <Link
               to={
                 item.type === 'food'
-                  ? `/foods/${item?.id}`
-                  : `/drinks/${item?.id}`
+                  ? `/foods/${item.id}`
+                  : `/drinks/${item.id}`
               }
             >
               <img
+                style={ { width: '100px' } }
+                data-testid={ `${index}-horizontal-image` }
                 src={ item?.image }
                 alt={ item?.name }
               />
