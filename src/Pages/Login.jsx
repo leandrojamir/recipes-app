@@ -31,7 +31,7 @@ const Login = () => {
         </label>
         <label htmlFor="password">
           <input
-            type="password"
+            type="text"
             id="password"
             data-testid="password-input"
             placeholder="Password"

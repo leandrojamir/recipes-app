@@ -31,7 +31,7 @@ function RecipeDetails({ type }) {
 
   const arrIngredients = [];
   const arrQuantidades = [];
-  console.log(recipe);
+  console.log('recipe', recipe);
 
   // logica para pegar os valores dos ingredientes e quantidades do Recipe
   if (recipe) {
@@ -55,7 +55,7 @@ function RecipeDetails({ type }) {
             { recipe?.strMeal || recipe?.strDrink }
           </h1>
           <h2 data-testid="recipe-category">
-            { recipe?.strCategory || recipe?.strAlcoholic }
+            { type === 'meals' ? recipe?.strCategory : recipe?.strAlcoholic }
           </h2>
           <img
             data-testid="recipe-photo"

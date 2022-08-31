@@ -8,6 +8,7 @@ function RecipeInProgress() {
   const [recipe, setRecipe] = useState();
   const [checkedList, setCheckedList] = useState([]);
   // const [ingredientes, setIngredientes] = useState();
+  // const [keyId, setKeyId] = useState('');
 
   // logica para pegar o id da Receita e o tipo da receita
   const history = useHistory();
@@ -15,6 +16,7 @@ function RecipeInProgress() {
   const maxNumber = 6;
   const id = pathname.replace(/[^0-9]/g, '');
   const type = pathname.slice(1, maxNumber);
+  // console.log(type);
 
   const getInProgress = async (url, key) => {
     const response = await fetch(`${url}${id}`);
@@ -22,11 +24,28 @@ function RecipeInProgress() {
     setRecipe(data[key][0]);
   };
 
-  // const getIngredients = () => {
-  //   const get = JSON.parse(localStorage.getItem('inProgressRecipes')) || [];
-  //   return (type === 'foods'
-  //     ? setIngredientes(get.meals[id])
-  //     : setIngredientes(get.cocktails[id]));
+  // verificar se a chave foi criada do LocalStorage
+  // verificar se o id está presente na chave
+  // const createKeyFoodOrDrink = () => {
+  //   const get = localStorage.getItem('inProgressRecipes');
+  //   // const inProgressObj = {
+  //   //   cocktails: {},
+  //   //   meals: {},
+  //   // };
+  //   if (type === 'food') {
+  //     setKeyId('meals');
+  //   } else {
+  //     setKeyId('cocktails');
+  //   }
+  //   if (!get) {
+  //     localStorage.setItem('inProgressRecipes', { cocktails: {}, meals: {} });
+  //   } else {
+  //     setIngredientes(get[keyId][id]);
+  //   }
+  //   console.log('keyId', get.keyId);
+  //   // if (get[keyId].contains(id)) {
+  //   //   setIngredientes(get[keyId][id]);
+  //   // }
   // };
 
   useEffect(() => {
@@ -35,7 +54,7 @@ function RecipeInProgress() {
     } else {
       getInProgress('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=', 'drinks');
     }
-    // getIngredients();
+    // createKeyFoodOrDrink();
   }, []);
 
   const arrIngredients = [];
@@ -51,6 +70,8 @@ function RecipeInProgress() {
       }
     });
   }
+
+  console.log('arrIngredients', arrIngredients);
 
   const isCheckedItem = (item) => {
     if (checkedList.length !== 0 && checkedList.includes(item)) {
@@ -102,6 +123,7 @@ function RecipeInProgress() {
               name={ recipe?.idMeal || recipe?.idDrink }
               value={ item }
               onChange={ handleChecked }
+              // checked={ onChecked }
             />
           </label>
         </div>
