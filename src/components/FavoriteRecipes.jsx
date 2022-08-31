@@ -38,12 +38,18 @@ const FavoritesRecipes = () => {
     setFavorites(filterDrink);
   };
 
+  const handleClickAll = () => {
+    const allFavorites = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    setFavorites(allFavorites);
+  };
+
   return (
     <main>
       <div>
         <button
           type="button"
           data-testid="filter-by-all-btn"
+          onClick={ handleClickAll }
         >
           All
         </button>
@@ -71,7 +77,7 @@ const FavoritesRecipes = () => {
             <Link
               to={
                 item.type === 'food'
-                  ? `/foods${item.id}`
+                  ? `/foods/${item?.id}`
                   : `/drinks/${item?.id}`
               }
             >
