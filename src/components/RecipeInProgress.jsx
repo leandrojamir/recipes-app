@@ -16,37 +16,12 @@ function RecipeInProgress() {
   const maxNumber = 6;
   const id = pathname.replace(/[^0-9]/g, '');
   const type = pathname.slice(1, maxNumber);
-  // console.log(type);
 
   const getInProgress = async (url, key) => {
     const response = await fetch(`${url}${id}`);
     const data = await response.json();
     setRecipe(data[key][0]);
   };
-
-  // verificar se a chave foi criada do LocalStorage
-  // verificar se o id está presente na chave
-  // const createKeyFoodOrDrink = () => {
-  //   const get = localStorage.getItem('inProgressRecipes');
-  //   // const inProgressObj = {
-  //   //   cocktails: {},
-  //   //   meals: {},
-  //   // };
-  //   if (type === 'food') {
-  //     setKeyId('meals');
-  //   } else {
-  //     setKeyId('cocktails');
-  //   }
-  //   if (!get) {
-  //     localStorage.setItem('inProgressRecipes', { cocktails: {}, meals: {} });
-  //   } else {
-  //     setIngredientes(get[keyId][id]);
-  //   }
-  //   console.log('keyId', get.keyId);
-  //   // if (get[keyId].contains(id)) {
-  //   //   setIngredientes(get[keyId][id]);
-  //   // }
-  // };
 
   useEffect(() => {
     if (type === 'foods') {
