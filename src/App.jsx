@@ -8,7 +8,7 @@ import Login from './Pages/Login';
 import Foods from './Pages/Foods';
 import Drinks from './Pages/Drinks';
 import DoneRecipes from './Pages/DoneRecipes';
-import Favorites from './Pages/Favorites';
+import FavoriteRecipes from './Pages/FavoriteRecipes';
 import FoodsId from './Pages/FoodsID';
 import DrinksId from './Pages/DrinksID';
 import Profile from './Pages/Profile';
@@ -29,8 +29,9 @@ function App() {
         render={ (props) => <DoneRecipes { ...props } /> }
       />
       <Route
+        exact
         path="/favorite-recipes"
-        render={ (props) => <Favorites { ...props } /> }
+        render={ (props) => <FavoriteRecipes { ...props } /> }
       />
       <Route
         path="/drinks/:id/in-progress"
