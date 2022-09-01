@@ -11,7 +11,7 @@ export default function FavoriteMeal() {
   // useEffect(() => {
   //   setRecipesFood(JSON.parse(localStorage.getItem('favoriteRecipes')));
   // }, []);
-  console.log(recipesFood);
+  //console.log(recipesFood);
   const handleClickFavoriteMeals = () => {
     const favoriteMeal = {
       id: recipe?.idMeal,

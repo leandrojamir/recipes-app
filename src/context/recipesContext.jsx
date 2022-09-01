@@ -31,7 +31,7 @@ export const RecipesProvider = ({ children }) => {
   //   if (window.localStorage.inProgressRecipes === 'undefined') {
   //     setInProgressList('');
   //   } else {
-  //     console.log('Local', JSON.parse(localStorage.getItem('inProgressRecipes')));
+  //     //console.log('Local', JSON.parse(localStorage.getItem('inProgressRecipes')));
   //     const key = JSON.parse(localStorage.getItem('inProgressRecipes'));
   //     setInProgressList(key);
   //   }
@@ -87,7 +87,7 @@ export const RecipesProvider = ({ children }) => {
       setFilterCategoryFoods(resultsBtnAllFoods);
       setShowRecipes(false);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -99,7 +99,7 @@ export const RecipesProvider = ({ children }) => {
       setFilterCategoryDrinks(resultsBtnAllDrinks);
       setShowRecipes(false);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 

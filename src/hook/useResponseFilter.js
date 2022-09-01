@@ -11,7 +11,7 @@ function useResponseFilter(api, func, recipes) {
           func([...filterRecipes]);
         }
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
     };
     apiRecipes();
