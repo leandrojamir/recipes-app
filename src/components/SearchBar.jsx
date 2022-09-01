@@ -44,10 +44,11 @@ function SearchBar() {
     }
     if (radio === 'name') {
       const resultName = await fetchName(search, param);
-      // //console.log(resultName);
       setArrResults(resultName[key]);
     }
   };
+
+  console.log('arrResults', arrResults);
 
   // Atualiza o estado
   const onclickBtn = (param) => {
@@ -77,8 +78,6 @@ function SearchBar() {
     checkUnique();
     checkArrayNull();
   }, [arrResults]);
-
-  // console.log('arrResults:', arrResults);
 
   return (
     <div>
