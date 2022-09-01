@@ -4,7 +4,7 @@ export const fetchIngredients = async (ingrediente, type) => {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
 
@@ -24,7 +24,7 @@ export const fetchLetter = async (letter, type) => {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
 
