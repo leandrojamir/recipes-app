@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import ShareButton from './ShareButton';
@@ -10,8 +10,9 @@ import FavoriteMeal from './FavoriteMeal';
 function RecipeDetails({ type }) {
   const history = useHistory();
   const { recipe, setRecipe } = ContextRecipes();
-  // const [showDone, setShowDone] = useState(true);
+  const [showDone, setShowDone] = useState(true);
 
+  // const [sugestions, setSugestions] = useState([]);
   const { location: { pathname } } = history;
   const id = pathname.replace(/[^0-9]/g, '');
 
@@ -21,11 +22,24 @@ function RecipeDetails({ type }) {
     setRecipe(data[type][0]);
   };
 
-  // function checkDone() {
-  //   const getDoneRecipes = localStorage.getItem('doneRecipes') || [];
-  //   const checkSome = getDoneRecipes.some((done) => done.id === id);
-  //   setShowDone(checkSome);
-  // }
+  // const getSugestions = async (url) => {
+  //   const maxNumber = 6;
+  //   const variavel = 0.5;
+  //   const result = await fetch(url);
+  //   const data = await result.json();
+  //   const dataSugestions = data[type];
+  //   // embaralhar as sugestões vinda da api
+  //   const sugestionsSort = dataSugestions
+  //     .sort(() => Math.random() - variavel)
+  //     .slice(0, maxNumber);
+  //   setSugestions(sugestionsSort);
+  // };
+
+  function checkDone() {
+    const getDoneRecipes = localStorage.getItem('doneRecipes') || [];
+    const checkSome = getDoneRecipes.some((done) => done.id === id);
+    setShowDone(checkSome);
+  }
 
   useEffect(() => {
     if (type === 'meals') {
@@ -35,21 +49,20 @@ function RecipeDetails({ type }) {
       getRecipe('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=');
       // getSugestions('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
     }
-    // checkDone();
+    checkDone();
   }, []);
 
   const arrIngredients = [];
   const arrQuantidades = [];
+  // //console.log(recipe);
 
-  // logica para pegar os valores dos ingredientes e quantidades do Recipe
   if (recipe) {
     const arrRecipes = Object.entries(recipe);
     arrRecipes.forEach((e) => {
-      // '' and null -> false
-      if (e[0].includes('strIngredient') && e[1]) {
+      if (e[0].includes('strIngredient') && e[1] !== null && e[1] !== '') {
         arrIngredients.push(e[1]);
       }
-      if (e[0].includes('strMeasure') && e[1]) {
+      if (e[0].includes('strMeasure') && e[1] !== null && e[1] !== '') {
         arrQuantidades.push(e[1]);
       }
     });
@@ -60,15 +73,23 @@ function RecipeDetails({ type }) {
       { recipe && (
         <>
           <h1 data-testid="recipe-title">
-            { recipe?.strMeal || recipe?.strDrink }
+            { type === 'meals'
+              ? recipe?.strMeal
+              : recipe?.strDrink }
           </h1>
           <h2 data-testid="recipe-category">
-            { type === 'meals' ? recipe?.strCategory : recipe?.strAlcoholic }
+            { type === 'meals'
+              ? recipe?.strCategory
+              : recipe?.strAlcoholic }
           </h2>
           <img
             data-testid="recipe-photo"
-            src={ recipe?.strMealThumb || recipe?.strDrinkThumb }
-            alt={ recipe?.strMeal || recipe?.strDrink }
+            src={ type === 'meals'
+              ? recipe?.strMealThumb
+              : recipe?.strDrinkThumb }
+            alt={ type === 'meals'
+              ? recipe?.strMeal
+              : recipe?.strDrink }
           />
           <div>
             <ShareButton />
@@ -85,6 +106,15 @@ function RecipeDetails({ type }) {
             </p>
           )) }
           <p data-testid="instructions">{recipe?.strInstructions}</p>
+          {/* <p>Sugestions</p>
+          { sugestions.map((e, index) => (
+            <p
+              key={ index }
+              data-testid={ `${index}-recomendation-card` }
+            >
+              { type === 'meals' ? e.strMeal : e.strDrink }
+            </p>
+          )) } */}
           <video
             width="400"
             controls="controls"
@@ -94,7 +124,7 @@ function RecipeDetails({ type }) {
           </video>
         </>
       ) }
-      { <StartContinueButton type={ type } /> }
+      { !showDone && <StartContinueButton type={ type } /> }
     </div>
   );
 }

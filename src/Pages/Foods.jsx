@@ -17,7 +17,7 @@ function Foods() {
 
   const maxNumber = 12;
   const maxCategory = 5;
-
+  // //console.log(filterCategoryFoods.length);
   return (
     <>
       <Header titulo="Foods" showBtn />
@@ -70,12 +70,13 @@ function Foods() {
         <section>
           { arrResults && arrResults.slice(0, maxNumber)
             .map((food, index) => (
-              <RecipeCard
-                key={ food?.idMeal }
-                img={ food?.strMealThumb }
-                name={ food?.strMeal }
-                index={ index }
-              />
+              <Link key={ food.idMeal } to={ `/foods/${food.idMeal}` }>
+                <RecipeCard
+                  img={ food.strMealThumb }
+                  name={ food.strMeal }
+                  index={ index }
+                />
+              </Link>
             ))}
         </section>
       </main>
