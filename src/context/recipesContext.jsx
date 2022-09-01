@@ -87,7 +87,7 @@ export const RecipesProvider = ({ children }) => {
       setFilterCategoryFoods(resultsBtnAllFoods);
       setShowRecipes(false);
     } catch (error) {
-      //console.log(error);
+      // console.log(error);
     }
   };
 
@@ -99,7 +99,7 @@ export const RecipesProvider = ({ children }) => {
       setFilterCategoryDrinks(resultsBtnAllDrinks);
       setShowRecipes(false);
     } catch (error) {
-      //console.log(error);
+      // console.log(error);
     }
   };
 
