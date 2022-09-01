@@ -11,14 +11,16 @@ const FavoritesRecipes = () => {
   const handleClickRemoveFavorite = (index) => {
     const favorite = JSON.parse(localStorage.getItem('favoriteRecipes'));
     const favoriteRecipesID = favorite[index].id;
-    const filteredRecipes = favorite.filter((item) => item.id !== favoriteRecipesID);
+    const filteredRecipes = favorite.filter(
+      (item) => item.id !== favoriteRecipesID,
+    );
     setFavorites(filteredRecipes);
     localStorage.setItem('favoriteRecipes', JSON.stringify(filteredRecipes));
   };
 
   useEffect(() => {
     const getFavoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    setFavorites(getFavoriteRecipes);
+    if (getFavoriteRecipes) setFavorites(getFavoriteRecipes);
   }, []);
 
   const handleClickShare = (type, id) => {
@@ -68,12 +70,10 @@ const FavoritesRecipes = () => {
           Drink
         </button>
       </div>
-      { favorites.length > 0 && favorites
-        .map((item, index) => (
-          <div
-            key={ item?.id }
-          >
-            { console.log(item?.image, 'hello') }
+      {favorites.length > 0
+        && favorites.map((item, index) => (
+          <div key={ item?.id }>
+            {console.log(item?.image, 'hello')}
             <Link
               to={
                 item.type === 'food'
@@ -90,11 +90,9 @@ const FavoritesRecipes = () => {
             </Link>
             <div>
               <p data-testid={ `${index}-horizontal-top-text` }>
-                {
-                  item.type === 'food'
-                    ? `${item.nationality} - ${item.category}`
-                    : item.alcoholicOrNot
-                }
+                {item.type === 'food'
+                  ? `${item.nationality} - ${item.category}`
+                  : item.alcoholicOrNot}
               </p>
               <button
                 type="button"
@@ -105,7 +103,7 @@ const FavoritesRecipes = () => {
                   src={ Share }
                   alt="share"
                 />
-                { buttonShare && 'Link copied!'}
+                {buttonShare && 'Link copied!'}
               </button>
               <button
                 type="button"
@@ -125,12 +123,8 @@ const FavoritesRecipes = () => {
                   : `/drinks/${item.id}`
               }
             >
-              <h3 data-testid={ `${index}-horizontal-name` }>
-                { item.name }
-              </h3>
-
+              <h3 data-testid={ `${index}-horizontal-name` }>{item.name}</h3>
             </Link>
-
           </div>
         ))}
     </main>

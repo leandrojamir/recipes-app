@@ -8,7 +8,7 @@ import Login from './Pages/Login';
 import Foods from './Pages/Foods';
 import Drinks from './Pages/Drinks';
 import DoneRecipes from './Pages/DoneRecipes';
-import Favorite from './Pages/Favorite';
+import Favorite from './Pages/FavoriteRecipes';
 import FoodsId from './Pages/FoodsID';
 import DrinksId from './Pages/DrinksID';
 import Profile from './Pages/Profile';
