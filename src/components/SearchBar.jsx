@@ -27,12 +27,16 @@ function SearchBar() {
 
   // atualiza os estados conforme a chamada de api
   const searchApi = async (param, key) => {
+    console.log('queremos radio', radio);
+    console.log('queremos search', search);
     if (radio === 'first-letter') {
       if (search.length > 1) {
         global.alert('Your search must have only 1 (one) character');
+      } else {
+        const resultLetter = await fetchLetter(search, param);
+        console.log('queresmos resulL', resultLetter);
+        setArrResults(resultLetter[key]);
       }
-      const resultLetter = await fetchLetter(search, param);
-      setArrResults(resultLetter[key]);
     }
     if (radio === 'ingredient') {
       const resultIngredients = await fetchIngredients(search, param);
@@ -40,7 +44,6 @@ function SearchBar() {
     }
     if (radio === 'name') {
       const resultName = await fetchName(search, param);
-      console.log(resultName[key]);
       setArrResults(resultName[key]);
     }
   };

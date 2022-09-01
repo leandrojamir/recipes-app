@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+// https://www.npmjs.com/package/copy-to-clipboard
+import copy from 'clipboard-copy';
 import Header from '../components/Header';
+// import SearchBar from '../components/SearchBar';
 import shareIcon from '../images/shareIcon.svg';
 
 function DoneRecipes() {
@@ -55,22 +58,10 @@ function DoneRecipes() {
       <button data-testid="filter-by-drink-btn" type="button">
         Drinks
       </button>
-      {/* { drinksList && drinksList.drinks
-                    .filter((_, index) => index < maxNumberList).map((beverage, index) => (
-                      <Link
-                        to={ `/drinks/${beverage.idDrink}` }
-                        key={ index }
-                      >
-                        <div
-                          key={ index }
-                          data-testid={ `${index}-recomendation-card` }
-                          className="card"
-                        > */}
       {doneRecipes.map((element, index) => (
         <div key={ element.id }>
           <Link
             to={ `${element.type}s${element.id}` }
-            // key={ recipe.id }
           >
             <div>
               {/* O imagem do card de receita deve ter o atributo data-testid="${index}-horizontal-image"; */}
@@ -87,10 +78,6 @@ function DoneRecipes() {
           </Link>
           {/* O texto da categoria da receita deve ter o atributo data-testid="${index}-horizontal-top-text"; */}
           <div data-testid={ `${index}-horizontal-top-text` }>
-            {/* 4 get [data-testid="0-horizontal-top-text"]
-            5 contains Italian - Vegetarian */}
-            {/* cy.get('[data-testid="0-horizontal-top-text"]')
-        .contains(`${doneRecipes[0].nationality} - ${doneRecipes[0].category}`); */}
             { `${element.nationality} - ${element.category}` }
             {element.alcoholicOrNot}
           </div>
@@ -99,11 +86,32 @@ function DoneRecipes() {
             {element.doneDate}
           </div>
           {/* O elemento de compartilhar a receita deve ter o atributo data-testid="${index}-horizontal-share-btn"; */}
-          <img
-            data-testid={ `${index}-horizontal-share-btn` }
-            alt="compartilhar"
-            src={ shareIcon }
-          />
+          {/* 47 - Desenvolva a solução de modo que o botão de compartilhar deve copiar a URL da tela de detalhes da receita para o clipboard
+          O que será verificado
+          Ao clicar no botão de compartilhar deve aparecer a mensagem "Link copied!";
+          Se a URL da tela de detalhes da receita é copiada para o clipboard. */}
+          {/* expected <div> to have attribute src */}
+          {/* tentei reaproveitar o <ShareButton /> para ficar mais clean porem por conta da 45 que pede src além do data-testId ficar duplicando
+          a imagem do compartilhar sendo uma fake e outra clicacael, também não completa a 47 mesmo aparecendo a mensagem contains Link copied!
+          pois meu "crtl+c" não esta guardando o valor esperado do caminho ${window.location.origin}${history.location.pathname}
+          possivelmente vai funcionar quando pegar atraves do localStorage, por enquanto usando um hook pronto chamado clipboard-copy
+          https://www.npmjs.com/package/copy-to-clipboard  */}
+          {/* <div data-testid={ `${index}-horizontal-share-btn` }>
+            <SearchBar />
+          </div> */}
+          <button
+            type="button"
+            onClick={ (event) => {
+              copy(`http://localhost:3000/${element.type}s/${element.id}`);
+              event.target.innerHTML = 'Link copied!';
+            } }
+          >
+            <img
+              data-testid={ `${index}-horizontal-share-btn` }
+              alt="compartilhar"
+              src={ shareIcon }
+            />
+          </button>
           {/* As tags da receita devem possuir o atributo data-testid=${index}-${tagName}-horizontal-tag; */}
           { element.tags.map((t, i) => (
             index < noMagicNumber
