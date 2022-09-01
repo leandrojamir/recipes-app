@@ -1,12 +1,14 @@
 import React from 'react';
+import FavoriteRecipes from '../components/FavoriteRecipes';
 import Header from '../components/Header';
 
-function FavoriteRecipes() {
+function Favorites() {
   return (
-    <div>
+    <>
       <Header titulo="Favorite Recipes" showBtn={ false } />
-    </div>
+      <FavoriteRecipes />
+    </>
   );
 }
 
-export default FavoriteRecipes;
+export default Favorites;
