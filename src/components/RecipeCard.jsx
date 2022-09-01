@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const RecipeCard = (props) => {
   const { img, name, key, index } = props;
-  // key recebe idn
+  // key recebe id
   return (
     <div data-testid={ `${index}-recipe-card` }>
       <Link key={ key } to={ `/drinks/${key}` }>
