@@ -9,3 +9,10 @@
 //   RecipesInProgress.jsx      |       0 |      100 |       0 |       0 | 4                           
 //  src/Pages                   |    84.9 |    91.66 |   66.66 |    84.9 |                             
 //   DoneRecipes.jsx            |     100 |      100 |     100 |     100 |                   
+import React from 'react';
+
+describe('Aqui será o test da doneRecipes quando incluir req 48 e 49 e localStorage', () => {
+  it('por enquanto já esta sendo coberto 100% pelo SearchBar.test', () => {
+
+  });
+});
