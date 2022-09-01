@@ -71,13 +71,12 @@ function Foods() {
         <section>
           { arrResults && arrResults.slice(0, maxNumber)
             .map((food, index) => (
-              <Link key={ food.idMeal } to={ `/foods/${food.idMeal}` }>
-                <RecipeCard
-                  img={ food.strMealThumb }
-                  name={ food.strMeal }
-                  index={ index }
-                />
-              </Link>
+              <RecipeCard
+                key={ food?.idMeal }
+                img={ food?.strMealThumb }
+                name={ food?.strMeal }
+                index={ index }
+              />
             ))}
         </section>
       </main>

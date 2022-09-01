@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Recipes from '../components/Recipes';
@@ -51,13 +50,12 @@ function Drinks() {
         <section>
           { arrResults && arrResults.slice(0, maxNumber)
             .map((drink, index) => (
-              <Link key={ drink.idDrink } to={ `/drinks/${drink.idDrink}` }>
-                <RecipeCard
-                  img={ drink.strDrinkThumb }
-                  name={ drink.strDrink }
-                  index={ index }
-                />
-              </Link>
+              <RecipeCard
+                key={ drink?.idDrink }
+                img={ drink?.strDrinkThumb }
+                name={ drink?.strDrink }
+                index={ index }
+              />
             ))}
         </section>
         <section>
@@ -66,17 +64,17 @@ function Drinks() {
               .map((drink, index) => (
                 <div
                   data-testid={ `${index}-recipe-card` }
-                  key={ drink.strDrink }
+                  key={ drink?.strDrink }
                 >
                   <img
                     data-testid={ `${index}-card-img` }
-                    src={ drink.strDrinkThumb }
-                    alt={ drink.strDrink }
+                    src={ drink?.strDrinkThumb }
+                    alt={ drink?.strDrink }
                   />
                   <p
                     data-testid={ `${index}-card-name` }
                   >
-                    { drink.strDrink }
+                    { drink?.strDrink }
                   </p>
                 </div>
               ))}

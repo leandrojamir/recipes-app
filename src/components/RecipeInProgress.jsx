@@ -7,8 +7,6 @@ import './RecipeInProgress.css';
 function RecipeInProgress() {
   const [recipe, setRecipe] = useState();
   const [checkedList, setCheckedList] = useState([]);
-  // const [ingredientes, setIngredientes] = useState();
-  // const [keyId, setKeyId] = useState('');
 
   // logica para pegar o id da Receita e o tipo da receita
   const history = useHistory();
@@ -23,17 +21,7 @@ function RecipeInProgress() {
     setRecipe(data[key][0]);
   };
 
-  useEffect(() => {
-    if (type === 'foods') {
-      getInProgress('https://www.themealdb.com/api/json/v1/1/lookup.php?i=', 'meals');
-    } else {
-      getInProgress('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=', 'drinks');
-    }
-    // createKeyFoodOrDrink();
-  }, []);
-
   const arrIngredients = [];
-  console.log(recipe);
 
   // logica para pegar os valores dos ingredientes e quantidades do Recipe
   if (recipe) {
@@ -46,14 +34,46 @@ function RecipeInProgress() {
     });
   }
 
-  console.log('arrIngredients', arrIngredients);
+  // lógica para deixar dinamica a chave de acesso do LocalStorage
+  const checkAcessKey = pathname.includes('drink') ? 'cocktails' : 'meals';
+
+  // check se a chave do localStorage existe
+  const checkLocalStorage = () => (
+    !localStorage.getItem('inProgressRecipes')
+      && localStorage
+        .setItem('inProgressRecipes', JSON.stringify({ meals: {}, cocktails: {} })));
+
+  // chave do localStorage
+  const getProgress = JSON
+    .parse(localStorage.getItem('inProgressRecipes')) || { meals: {}, cocktails: {} };
+
+  // atualiza o localStorage
+  const getLocalStorage = () => {
+    const obj = {
+      ...getProgress,
+      [checkAcessKey]: {
+        ...getProgress[checkAcessKey],
+        [id]: checkedList,
+      },
+    };
+    localStorage.setItem('inProgressRecipes', JSON.stringify(obj));
+  };
+
+  useEffect(() => {
+    if (type === 'foods') {
+      getInProgress('https://www.themealdb.com/api/json/v1/1/lookup.php?i=', 'meals');
+    } else {
+      getInProgress('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=', 'drinks');
+    }
+    checkLocalStorage();
+    // manter atualizado a lista de checked
+    setCheckedList(getProgress[checkAcessKey][id] || []);
+  }, []);
 
   const isCheckedItem = (item) => {
     if (checkedList.length !== 0 && checkedList.includes(item)) {
-      // console.log('checked');
       return 'checked';
     }
-    // console.log('no-checked');
     return 'noChecked';
   };
 
@@ -67,6 +87,16 @@ function RecipeInProgress() {
       setCheckedList(checkedList.filter((item) => item !== value));
     }
   };
+
+  const onChecked = (item) => {
+    // lógica para manter o checked caso esteja no localStorage
+    const checked = checkedList.some((e) => e === item);
+    return checked;
+  };
+
+  useEffect(() => {
+    getLocalStorage();
+  }, [checkedList]);
 
   return (
     <div>
@@ -90,16 +120,16 @@ function RecipeInProgress() {
           key={ index }
           data-testid={ `${index}-ingredient-step` }
         >
-          <p className={ isCheckedItem(item) }>{`${item}`}</p>
-          <label htmlFor="checkRecipe">
+          <label htmlFor={ index }>
             <input
               type="checkbox"
-              id="checkRecipe"
-              name={ recipe?.idMeal || recipe?.idDrink }
+              id={ index }
+              name={ item }
               value={ item }
               onChange={ handleChecked }
-              // checked={ onChecked }
+              checked={ onChecked(item) }
             />
+            <span className={ isCheckedItem(item) }>{`${item}`}</span>
           </label>
         </div>
       )) }

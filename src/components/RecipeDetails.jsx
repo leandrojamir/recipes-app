@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import Heart from '../images/whiteHeartIcon.svg';
 import ShareButton from './ShareButton';
+import FavoriteDrink from './FavoriteDrink';
 import StartContinueButton from './StartContinueButton';
 import { ContextRecipes } from '../context/recipesContext';
+import FavoriteMeal from './FavoriteMeal';
 
 function RecipeDetails({ type }) {
   const history = useHistory();
   const { recipe, setRecipe } = ContextRecipes();
+  // const [showDone, setShowDone] = useState(true);
 
   const { location: { pathname } } = history;
   const id = pathname.replace(/[^0-9]/g, '');
@@ -19,6 +21,12 @@ function RecipeDetails({ type }) {
     setRecipe(data[type][0]);
   };
 
+  // function checkDone() {
+  //   const getDoneRecipes = localStorage.getItem('doneRecipes') || [];
+  //   const checkSome = getDoneRecipes.some((done) => done.id === id);
+  //   setShowDone(checkSome);
+  // }
+
   useEffect(() => {
     if (type === 'meals') {
       getRecipe('https://www.themealdb.com/api/json/v1/1/lookup.php?i=');
@@ -27,11 +35,11 @@ function RecipeDetails({ type }) {
       getRecipe('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=');
       // getSugestions('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
     }
+    // checkDone();
   }, []);
 
   const arrIngredients = [];
   const arrQuantidades = [];
-  console.log('recipe', recipe);
 
   // logica para pegar os valores dos ingredientes e quantidades do Recipe
   if (recipe) {
@@ -64,9 +72,9 @@ function RecipeDetails({ type }) {
           />
           <div>
             <ShareButton />
-            <button type="button" data-testid="favorite-btn">
-              <img src={ Heart } alt="coracao" />
-            </button>
+
+            {type === 'meals' ? <FavoriteMeal /> : <FavoriteDrink />}
+
           </div>
           { arrIngredients.map((e, index) => (
             <p
@@ -86,7 +94,7 @@ function RecipeDetails({ type }) {
           </video>
         </>
       ) }
-      <StartContinueButton type={ type } />
+      { <StartContinueButton type={ type } /> }
     </div>
   );
 }

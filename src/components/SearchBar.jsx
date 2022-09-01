@@ -45,13 +45,15 @@ function SearchBar() {
     }
   };
 
+  console.log('arrResults', arrResults);
+
   // Atualiza o estado
-  const onclickBtn = () => {
+  const onclickBtn = (param) => {
     setShowRecipes(false);
     if (type === 'Drinks') {
-      searchApi('thecocktaildb', 'drinks');
+      searchApi(param, 'drinks');
     } else {
-      searchApi('themealdb', 'meals');
+      searchApi(param, 'meals');
     }
   };
 
@@ -127,7 +129,7 @@ function SearchBar() {
       <button
         type="button"
         data-testid="exec-search-btn"
-        onClick={ onclickBtn }
+        onClick={ () => onclickBtn(type === 'Drinks' ? 'thecocktaildb' : 'themealdb') }
       >
         Buscar
       </button>
