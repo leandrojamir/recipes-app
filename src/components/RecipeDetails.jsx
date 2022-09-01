@@ -54,7 +54,7 @@ function RecipeDetails({ type }) {
 
   const arrIngredients = [];
   const arrQuantidades = [];
-  // console.log(recipe);
+  // //console.log(recipe);
 
   if (recipe) {
     const arrRecipes = Object.entries(recipe);
