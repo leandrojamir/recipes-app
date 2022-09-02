@@ -9,5 +9,6 @@
   flex-direction: column;
   margin: auto;
   margin-bottom: 10px;
+  max-width: fit-content;
   padding: 10px;
 }
