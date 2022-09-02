@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
-import FavoriteMeal from './FavoriteMeal';
+import FavoriteRecipeInProgress from './FavoriteRecipeInProgress';
 
 import './RecipeInProgress.css';
 
@@ -19,7 +19,6 @@ function RecipeInProgress() {
   const maxNumber = 6;
   const id = pathname.replace(/[^0-9]/g, '');
   const type = pathname.slice(1, maxNumber);
-  console.log('type', type);
 
   const handleClickShare = () => {
     setCopyLink('Link copied!');
@@ -101,6 +100,12 @@ function RecipeInProgress() {
   // lógica para manter o checked caso esteja no localStorage
   const onChecked = (item) => (checkedList.some((e) => e === item));
 
+  // logica para habilitar o button quando todos os checkeds forem habilitados
+  const finishRecipe = () => (
+    Number(arrIngredients.length) === Number(checkedList.length) ? false : 1);
+
+  console.log(finishRecipe());
+
   useEffect(() => {
     getLocalStorage();
   }, [checkedList]);
@@ -124,13 +129,11 @@ function RecipeInProgress() {
         <img src={ shareIcon } alt="compartilhar" />
       </button>
       <p>{copyLink}</p>
-      {/* <button
-        data-testid="favorite-btn"
-        type="button"
-      >
-        <img src={ shareIcon } alt="favoritar" />
-      </button> */}
-      <FavoriteMeal typeFavorite={ type === 'foods' ? 'food' : 'drink' } />
+      {/* componente que favorita as receitas */}
+      <FavoriteRecipeInProgress
+        typeFavorite={ type === 'foods' ? 'food' : 'drink' }
+        idRecipe={ id }
+      />
       { arrIngredients && arrIngredients.map((item, index) => (
         <div
           key={ index }
@@ -154,6 +157,7 @@ function RecipeInProgress() {
       <button
         data-testid="finish-recipe-btn"
         type="button"
+        disabled={ finishRecipe() }
         onClick={ () => history.push('/done-recipes') }
       >
         Finalizar
