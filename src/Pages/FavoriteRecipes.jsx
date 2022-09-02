@@ -70,6 +70,7 @@ const FavoriteRecipes = () => {
           Drink
         </button>
       </div>
+      { buttonShare && <h1>Link copied!</h1>}
       { favorites.map((item, index) => (
         <div
           key={ item?.id }
@@ -106,7 +107,6 @@ const FavoriteRecipes = () => {
                 src={ Share }
                 alt="share"
               />
-              { buttonShare && 'Link copied!'}
             </button>
             <button
               type="button"
