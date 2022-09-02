@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import ShareButton from './ShareButton';
@@ -10,7 +10,7 @@ import FavoriteMeal from './FavoriteMeal';
 function RecipeDetails({ type }) {
   const history = useHistory();
   const { recipe, setRecipe } = ContextRecipes();
-  // const [showDone, setShowDone] = useState(true);
+  const [showDone, setShowDone] = useState(true);
 
   const { location: { pathname } } = history;
   const id = pathname.replace(/[^0-9]/g, '');
@@ -21,11 +21,11 @@ function RecipeDetails({ type }) {
     setRecipe(data[type][0]);
   };
 
-  // function checkDone() {
-  //   const getDoneRecipes = localStorage.getItem('doneRecipes') || [];
-  //   const checkSome = getDoneRecipes.some((done) => done.id === id);
-  //   setShowDone(checkSome);
-  // }
+  function checkDone() {
+    const getDoneRecipes = localStorage.getItem('doneRecipes') || [];
+    const checkSome = getDoneRecipes.some((done) => done.id === id);
+    setShowDone(checkSome);
+  }
 
   useEffect(() => {
     if (type === 'meals') {
@@ -35,7 +35,7 @@ function RecipeDetails({ type }) {
       getRecipe('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=');
       // getSugestions('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
     }
-    // checkDone();
+    checkDone();
   }, []);
 
   const arrIngredients = [];
@@ -94,7 +94,7 @@ function RecipeDetails({ type }) {
           </video>
         </>
       ) }
-      { <StartContinueButton type={ type } /> }
+      { !showDone && <StartContinueButton type={ type } /> }
     </div>
   );
 }
