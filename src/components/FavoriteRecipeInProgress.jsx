@@ -5,7 +5,7 @@ import Heart from '../images/whiteHeartIcon.svg';
 import HeartBlack from '../images/blackHeartIcon.svg';
 
 function FavoriteRecipeInProgress({ typeFavorite, idRecipe }) {
-  const [recipesFood, setRecipesFood] = useLocalStorage('favoriteRecipes', []);
+  const [favoriteRecipes, setFavoriteRecipes] = useLocalStorage('favoriteRecipes', []);
   const [recipe, setRecipe] = useState();
 
   const getInProgress = async (url, key) => {
@@ -32,21 +32,21 @@ function FavoriteRecipeInProgress({ typeFavorite, idRecipe }) {
       name: recipe?.strMeal || recipe?.strDrink,
       image: recipe?.strMealThumb || recipe?.strDrinkThumb,
     };
-    setRecipesFood([
-      ...recipesFood,
+    setFavoriteRecipes([
+      ...favoriteRecipes,
       favorite,
     ]);
   };
 
   const handleClickRemoveFavoriteRecipe = () => {
-    const filterFavorite = recipesFood
+    const filterFavorite = favoriteRecipes
       .filter((item) => item.id !== idRecipe);
-    setRecipesFood(filterFavorite);
+    setFavoriteRecipes(filterFavorite);
   };
 
   return (
     <div>
-      { recipesFood?.some((recipeId) => recipeId.id === idRecipe) ? (
+      { favoriteRecipes?.some((recipeId) => recipeId.id === idRecipe) ? (
         <button
           type="button"
           onClick={ handleClickRemoveFavoriteRecipe }

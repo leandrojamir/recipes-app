@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import FavoriteRecipeInProgress from './FavoriteRecipeInProgress';
+// import SalveDoneRecipes from '../service/salveLocalStorage';
 
 import './RecipeInProgress.css';
 
@@ -19,6 +20,7 @@ function RecipeInProgress() {
   const maxNumber = 6;
   const id = pathname.replace(/[^0-9]/g, '');
   const type = pathname.slice(1, maxNumber);
+  console.log(type);
 
   const handleClickShare = () => {
     setCopyLink('Link copied!');
@@ -82,6 +84,7 @@ function RecipeInProgress() {
     setCheckedList(getProgress[checkAcessKey][id] || []);
   }, []);
 
+  // retorna a class que deixa os ingredientes riscados
   const isCheckedItem = (item) => {
     if (checkedList.length !== 0 && checkedList.includes(item)) {
       return 'checked';
@@ -102,9 +105,25 @@ function RecipeInProgress() {
 
   // logica para habilitar o button quando todos os checkeds forem habilitados
   const finishRecipe = () => (
-    Number(arrIngredients.length) === Number(checkedList.length) ? false : 1);
+    arrIngredients.length === checkedList.length ? false : 1);
 
-  console.log(finishRecipe());
+  const salveDoneRecipes = () => {
+    const getDone = JSON.parse(localStorage.getItem('doneRecipes')) || [];
+    const dateFormatter = new Intl.DateTimeFormat('pt-BR');
+    const done = {
+      id: recipe?.idMeal || recipe?.idDrink,
+      type,
+      nationality: recipe?.strArea || '',
+      category: recipe?.strCategory,
+      alcoholicOrNot: recipe?.strAlcoholic || '',
+      name: recipe?.strMeal || recipe?.strDrink,
+      image: recipe?.strMealThumb || recipe?.strDrinkThumb,
+      doneDate: dateFormatter.format(new Date()),
+      tags: recipe?.strTags,
+    };
+    localStorage.setItem('doneRecipes', JSON.stringify([...getDone, done]));
+    return history.push('/done-recipes');
+  };
 
   useEffect(() => {
     getLocalStorage();
@@ -158,7 +177,7 @@ function RecipeInProgress() {
         data-testid="finish-recipe-btn"
         type="button"
         disabled={ finishRecipe() }
-        onClick={ () => history.push('/done-recipes') }
+        onClick={ salveDoneRecipes }
       >
         Finalizar
       </button>
