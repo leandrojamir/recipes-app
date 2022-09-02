@@ -4,16 +4,28 @@ import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import './RecipeInProgress.css';
 
+const copy = require('clipboard-copy');
+
 function RecipeInProgress() {
   const [recipe, setRecipe] = useState();
   const [checkedList, setCheckedList] = useState([]);
+  const [copyLink, setCopyLink] = useState('');
+  const [favorite, setFavorite] = useState([]);
 
   // logica para pegar o id da Receita e o tipo da receita
   const history = useHistory();
-  const { location: { pathname } } = history;
+  const { location } = history;
+  const { pathname } = location;
   const maxNumber = 6;
   const id = pathname.replace(/[^0-9]/g, '');
   const type = pathname.slice(1, maxNumber);
+
+  const handleClickShare = () => {
+    setCopyLink('Link copied!');
+    return (type === 'drink'
+      ? copy(`${window.location.origin}/drinks/${id}`)
+      : copy(`${window.location.origin}/foods/${id}`));
+  };
 
   const getInProgress = async (url, key) => {
     const response = await fetch(`${url}${id}`);
@@ -46,7 +58,10 @@ function RecipeInProgress() {
   // chave do localStorage
   const getProgress = JSON
     .parse(localStorage.getItem('inProgressRecipes')) || { meals: {}, cocktails: {} };
+  const getFavorites = JSON.parse(localStorage.getItem('favoriteRecipes') || []);
 
+  console.log('favorites', getFavorites);
+  console.log(favorite);
   // atualiza o localStorage
   const getLocalStorage = () => {
     const obj = {
@@ -68,6 +83,7 @@ function RecipeInProgress() {
     checkLocalStorage();
     // manter atualizado a lista de checked
     setCheckedList(getProgress[checkAcessKey][id] || []);
+    setFavorite(getFavorites);
   }, []);
 
   const isCheckedItem = (item) => {
@@ -77,26 +93,24 @@ function RecipeInProgress() {
     return 'noChecked';
   };
 
+  // ao clicar acrescenta a classeRiscada a todos da lista de checkeds
   const handleChecked = ({ target }) => {
     const { checked, value } = target;
-    if (checked) {
-      // quando clicar acrescentar a classe a todos da lista de checkeds
-      setCheckedList([...checkedList, value]);
-    } else {
-      // retirar o item da lista de checked
-      setCheckedList(checkedList.filter((item) => item !== value));
-    }
+    return (checked
+      ? setCheckedList([...checkedList, value])
+      : setCheckedList([...checkedList, value]));
   };
 
-  const onChecked = (item) => {
-    // lógica para manter o checked caso esteja no localStorage
-    const checked = checkedList.some((e) => e === item);
-    return checked;
-  };
+  // lógica para manter o checked caso esteja no localStorage
+  const onChecked = (item) => (checkedList.some((e) => e === item));
 
   useEffect(() => {
     getLocalStorage();
   }, [checkedList]);
+
+  // const getFavorite = () => {
+  //   const salve = favorite
+  // }
 
   return (
     <div>
@@ -109,10 +123,19 @@ function RecipeInProgress() {
         src={ recipe?.strMealThumb || recipe?.strDrinkThumb }
         alt={ recipe?.strMeal || recipe?.strDrink }
       />
-      <button data-testid="share-btn" type="button">
+      <button
+        data-testid="share-btn"
+        type="button"
+        onClick={ handleClickShare }
+      >
         <img src={ shareIcon } alt="compartilhar" />
       </button>
-      <button data-testid="favorite-btn" type="button">
+      <p>{copyLink}</p>
+      <button
+        data-testid="favorite-btn"
+        type="button"
+        onClick={ getFavorite }
+      >
         <img src={ whiteHeartIcon } alt="favoritar" />
       </button>
       { arrIngredients && arrIngredients.map((item, index) => (
