@@ -1,5 +1,5 @@
 import React from "react";
-import { screen, waitFor } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import renderWithRouter from "./helpers/renderWithRouter";
 import userEvent from '@testing-library/user-event';
 import App from "../App";
@@ -26,6 +26,8 @@ const favoriteRecipes = JSON.stringify([
   },
 ]);
 
+jest.mock('clipboard-copy', () => jest.fn());
+const copy = require('clipboard-copy'); 
 
 describe('Testes FavoriteRecipes', () => {
   it(' Titulo e direcionamento profile', () => {
@@ -87,20 +89,26 @@ describe('Testes FavoriteRecipes', () => {
     expect(horizontalNames).not.toBeInTheDocument();
   });
 
-  // it('Verifica se a mensagem correta é exibida na tela ao clicar no botão share', () => {
-  //   localStorage.setItem('favoriteRecipes', favoriteRecipes);
-  //   const { history } = renderWithRouter(<App />);
-  //   history.push('/favorite-recipes');
-  //   // <img data-testid="0-horizontal-share-btn" src="/static/media/shareIcon.87def1bd1dff9af9263f046c3b9bd31a.svg" alt="share"></img>
-  //   const imageBtn = screen.getByTestId('0-horizontal-share-btn');
-  //   expect(imageBtn).toBeInTheDocument();
-  //   userEvent.click(imageBtn);
-  //   // Link copied!
-  //   // http://localhost:3000/foods/52771
-  //   // <button type="button" data-testid="especial-teste-grupo17"><img data-testid="0-horizontal-share-btn" src="/static/media/shareIcon.87def1bd1dff9af9263f046c3b9bd31a.svg" alt="share"></button>
-  //   const shareBtn = screen.getByRole('button', {  name: /link copied/i})
-  //   // expect(shareBtn).toHaveTextContent(/Link copied/i)
-  //   // const shareBtn = screen.getByText('Link copied!')
-  //   expect(shareBtn).toBeInTheDocument();
-  // });
+  it('Verifica se a mensagem correta é exibida na tela ao clicar no botão share', async () => {
+    
+    copy.mockImplementation(() => null);
+   
+    const { history } = renderWithRouter(<App />);
+    localStorage.setItem('favoriteRecipes', favoriteRecipes);
+    history.push('/favorite-recipes');
+
+    // <img data-testid="0-horizontal-share-btn" src="/static/media/shareIcon.87def1bd1dff9af9263f046c3b9bd31a.svg" alt="share"></img>
+    const imageBtn = await screen.findByTestId('0-horizontal-share-btn');
+    expect(imageBtn).toBeInTheDocument();
+    userEvent.click(imageBtn);
+    expect(copy).toHaveBeenCalled(); 
+
+    // <button type="button" data-testid="especial-teste-grupo17"><img data-testid="0-horizontal-share-btn" src="/static/media/shareIcon.87def1bd1dff9af9263f046c3b9bd31a.svg" alt="share"></button>
+    // const shareBtn = await screen.findByRole('heading', {  level: 1, name: /link copied/i})
+    const shareBtn2 = await screen.findByText('Link copied!')
+    // expect(shareBtn).toHaveTextContent(/Link copied/i)
+    // const shareBtn = screen.getByText('Link copied!')
+    // expect(shareBtn).toBeInTheDocument();
+    expect(shareBtn2).toBeInTheDocument();
+  });
 });
