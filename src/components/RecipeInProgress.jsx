@@ -1,19 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import FavoriteRecipeInProgress from './FavoriteRecipeInProgress';
+// import SalveDoneRecipes from '../service/salveLocalStorage';
+
 import './RecipeInProgress.css';
+
+const copy = require('clipboard-copy');
 
 function RecipeInProgress() {
   const [recipe, setRecipe] = useState();
   const [checkedList, setCheckedList] = useState([]);
+  const [copyLink, setCopyLink] = useState('');
 
   // logica para pegar o id da Receita e o tipo da receita
   const history = useHistory();
-  const { location: { pathname } } = history;
+  const { location } = history;
+  const { pathname } = location;
   const maxNumber = 6;
   const id = pathname.replace(/[^0-9]/g, '');
   const type = pathname.slice(1, maxNumber);
+  console.log(type);
+
+  const handleClickShare = () => {
+    setCopyLink('Link copied!');
+    return (type === 'drink'
+      ? copy(`${window.location.origin}/drinks/${id}`)
+      : copy(`${window.location.origin}/foods/${id}`));
+  };
 
   const getInProgress = async (url, key) => {
     const response = await fetch(`${url}${id}`);
@@ -70,6 +84,7 @@ function RecipeInProgress() {
     setCheckedList(getProgress[checkAcessKey][id] || []);
   }, []);
 
+  // retorna a class que deixa os ingredientes riscados
   const isCheckedItem = (item) => {
     if (checkedList.length !== 0 && checkedList.includes(item)) {
       return 'checked';
@@ -77,21 +92,37 @@ function RecipeInProgress() {
     return 'noChecked';
   };
 
+  // ao clicar acrescenta a classeRiscada a todos da lista de checkeds
   const handleChecked = ({ target }) => {
     const { checked, value } = target;
-    if (checked) {
-      // quando clicar acrescentar a classe a todos da lista de checkeds
-      setCheckedList([...checkedList, value]);
-    } else {
-      // retirar o item da lista de checked
-      setCheckedList(checkedList.filter((item) => item !== value));
-    }
+    return (checked
+      ? setCheckedList([...checkedList, value])
+      : setCheckedList(checkedList.filter((item) => item !== value)));
   };
 
-  const onChecked = (item) => {
-    // lógica para manter o checked caso esteja no localStorage
-    const checked = checkedList.some((e) => e === item);
-    return checked;
+  // lógica para manter o checked caso esteja no localStorage
+  const onChecked = (item) => (checkedList.some((e) => e === item));
+
+  // logica para habilitar o button quando todos os checkeds forem habilitados
+  const finishRecipe = () => (
+    arrIngredients.length === checkedList.length ? false : 1);
+
+  const salveDoneRecipes = () => {
+    const getDone = JSON.parse(localStorage.getItem('doneRecipes')) || [];
+    const dateFormatter = new Intl.DateTimeFormat('pt-BR');
+    const done = {
+      id: recipe?.idMeal || recipe?.idDrink,
+      type,
+      nationality: recipe?.strArea || '',
+      category: recipe?.strCategory,
+      alcoholicOrNot: recipe?.strAlcoholic || '',
+      name: recipe?.strMeal || recipe?.strDrink,
+      image: recipe?.strMealThumb || recipe?.strDrinkThumb,
+      doneDate: dateFormatter.format(new Date()),
+      tags: recipe?.strTags,
+    };
+    localStorage.setItem('doneRecipes', JSON.stringify([...getDone, done]));
+    return history.push('/done-recipes');
   };
 
   useEffect(() => {
@@ -109,12 +140,19 @@ function RecipeInProgress() {
         src={ recipe?.strMealThumb || recipe?.strDrinkThumb }
         alt={ recipe?.strMeal || recipe?.strDrink }
       />
-      <button data-testid="share-btn" type="button">
+      <button
+        data-testid="share-btn"
+        type="button"
+        onClick={ handleClickShare }
+      >
         <img src={ shareIcon } alt="compartilhar" />
       </button>
-      <button data-testid="favorite-btn" type="button">
-        <img src={ whiteHeartIcon } alt="favoritar" />
-      </button>
+      <p>{copyLink}</p>
+      {/* componente que favorita as receitas */}
+      <FavoriteRecipeInProgress
+        typeFavorite={ type === 'foods' ? 'food' : 'drink' }
+        idRecipe={ id }
+      />
       { arrIngredients && arrIngredients.map((item, index) => (
         <div
           key={ index }
@@ -138,7 +176,8 @@ function RecipeInProgress() {
       <button
         data-testid="finish-recipe-btn"
         type="button"
-        onClick={ () => history.push('/done-recipes') }
+        disabled={ finishRecipe() }
+        onClick={ salveDoneRecipes }
       >
         Finalizar
       </button>
