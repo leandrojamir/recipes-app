@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import FavoriteMeal from './FavoriteMeal';
+
 import './RecipeInProgress.css';
 
 const copy = require('clipboard-copy');
@@ -10,7 +11,6 @@ function RecipeInProgress() {
   const [recipe, setRecipe] = useState();
   const [checkedList, setCheckedList] = useState([]);
   const [copyLink, setCopyLink] = useState('');
-  const [favorite, setFavorite] = useState([]);
 
   // logica para pegar o id da Receita e o tipo da receita
   const history = useHistory();
@@ -19,6 +19,7 @@ function RecipeInProgress() {
   const maxNumber = 6;
   const id = pathname.replace(/[^0-9]/g, '');
   const type = pathname.slice(1, maxNumber);
+  console.log('type', type);
 
   const handleClickShare = () => {
     setCopyLink('Link copied!');
@@ -58,10 +59,7 @@ function RecipeInProgress() {
   // chave do localStorage
   const getProgress = JSON
     .parse(localStorage.getItem('inProgressRecipes')) || { meals: {}, cocktails: {} };
-  const getFavorites = JSON.parse(localStorage.getItem('favoriteRecipes') || []);
 
-  console.log('favorites', getFavorites);
-  console.log(favorite);
   // atualiza o localStorage
   const getLocalStorage = () => {
     const obj = {
@@ -83,7 +81,6 @@ function RecipeInProgress() {
     checkLocalStorage();
     // manter atualizado a lista de checked
     setCheckedList(getProgress[checkAcessKey][id] || []);
-    setFavorite(getFavorites);
   }, []);
 
   const isCheckedItem = (item) => {
@@ -98,7 +95,7 @@ function RecipeInProgress() {
     const { checked, value } = target;
     return (checked
       ? setCheckedList([...checkedList, value])
-      : setCheckedList([...checkedList, value]));
+      : setCheckedList(checkedList.filter((item) => item !== value)));
   };
 
   // lógica para manter o checked caso esteja no localStorage
@@ -107,10 +104,6 @@ function RecipeInProgress() {
   useEffect(() => {
     getLocalStorage();
   }, [checkedList]);
-
-  // const getFavorite = () => {
-  //   const salve = favorite
-  // }
 
   return (
     <div>
@@ -131,13 +124,13 @@ function RecipeInProgress() {
         <img src={ shareIcon } alt="compartilhar" />
       </button>
       <p>{copyLink}</p>
-      <button
+      {/* <button
         data-testid="favorite-btn"
         type="button"
-        onClick={ getFavorite }
       >
-        <img src={ whiteHeartIcon } alt="favoritar" />
-      </button>
+        <img src={ shareIcon } alt="favoritar" />
+      </button> */}
+      <FavoriteMeal typeFavorite={ type === 'foods' ? 'food' : 'drink' } />
       { arrIngredients && arrIngredients.map((item, index) => (
         <div
           key={ index }
