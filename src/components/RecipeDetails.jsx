@@ -22,7 +22,7 @@ function RecipeDetails({ type }) {
   };
 
   function checkDone() {
-    const getDoneRecipes = localStorage.getItem('doneRecipes') || [];
+    const getDoneRecipes = JSON.parse(localStorage.getItem('doneRecipes')) || [];
     const checkSome = getDoneRecipes.some((done) => done.id === id);
     setShowDone(checkSome);
   }

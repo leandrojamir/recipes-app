@@ -119,7 +119,7 @@ function RecipeInProgress() {
       name: recipe?.strMeal || recipe?.strDrink,
       image: recipe?.strMealThumb || recipe?.strDrinkThumb,
       doneDate: dateFormatter.format(new Date()),
-      tags: recipe?.strTags,
+      tags: [recipe?.strTags],
     };
     localStorage.setItem('doneRecipes', JSON.stringify([...getDone, done]));
     return history.push('/done-recipes');
