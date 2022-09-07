@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import ShareButton from './ShareButton';
-import FavoriteDrink from './FavoriteDrink';
+// import FavoriteDrink from './FavoriteDrink';
 import StartContinueButton from './StartContinueButton';
 import { ContextRecipes } from '../context/recipesContext';
 import FavoriteMeal from './FavoriteMeal';
@@ -22,9 +22,8 @@ function RecipeDetails({ type }) {
   };
 
   function checkDone() {
-    const getDoneRecipes = localStorage.getItem('doneRecipes') || [];
-    const checkSome = getDoneRecipes.some((done) => done.id === id);
-    setShowDone(checkSome);
+    const getDoneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+    setShowDone(!(getDoneRecipes === null || getDoneRecipes.length === 0));
   }
 
   useEffect(() => {
@@ -73,7 +72,7 @@ function RecipeDetails({ type }) {
           <div>
             <ShareButton />
 
-            {type === 'meals' ? <FavoriteMeal /> : <FavoriteDrink />}
+            <FavoriteMeal typeFavorite={ type === 'meals' ? 'food' : 'drink' } />
 
           </div>
           { arrIngredients.map((e, index) => (

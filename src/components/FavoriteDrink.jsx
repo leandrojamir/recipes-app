@@ -38,6 +38,7 @@ export default function FavoriteDrink() {
       .filter((item) => item.id !== recipe.idDrink);
     setRecipeDrink(filterFavorite);
   };
+
   return (
     <div>
       { recipeDrink.some((recipeID) => recipeID.id === recipe.idDrink) ? (
