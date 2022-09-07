@@ -11,6 +11,7 @@ import App from '../App';
 import foods from './mocks/FoodsListMock';
 import drinkList from './mocks/DrinksListMock';
 import penne from './mocks/Penne';
+import aquamarine from './mocks/Aquamarine';
 
 Object.assign(navigator, {
   clipboard: {
@@ -139,17 +140,19 @@ describe('Teste para RecipeDetail', () => {
     expect(screen.getByText(/Onion - 1 large/i)).toBeInTheDocument();
     expect(screen.getByText(/carrots - 1 large/i)).toBeInTheDocument();
     expect(screen.getByText(/tomato puree - 1 tbs/i)).toBeInTheDocument();
+    expect(screen.getByText(/Cumin - 2 tsp/i)).toBeInTheDocument();
+    expect(screen.getByText(/Paprika - 1 tsp/i)).toBeInTheDocument();
+    expect(screen.getByText('Mint - 1/2 tsp')).toBeInTheDocument();
+    expect(screen.getByText('Thyme - 1/2 tsp')).toBeInTheDocument();
+    expect(screen.getByText('Black Pepper - 1/4 tsp')).toBeInTheDocument();
+    expect(screen.getByText(/Vegetable Stock - 4 cups/i)).toBeInTheDocument();
+    expect(screen.getByText(/Water - 1 cup/i)).toBeInTheDocument();
+    expect(screen.getByText(/Sea Salt - Pinch/i)).toBeInTheDocument();
 
-
-
-    //   RecipeDetails.jsx          |   96.66 |    83.33 |   85.71 |     100 | 76-97  
-    // <h2 data-testid="recipe-category">Alcoholic</h2>
-    // const strAlcoholic = screen.getByTestId(/recipe-category/i);
-    // expect(strAlcoholic).toBeInTheDocument();
-    // expect(strAlcoholic).toHaveTextContent(/Alcoholic/i)
-    // <img data-testid="recipe-photo" src="https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg" alt="Aquamarine">
-
+    
     const strCategory = screen.getByTestId(/recipe-category/i);
+    const categoryH2 = screen.getByRole('heading', {level: 2})
+    expect(categoryH2).toHaveTextContent(/Side/i)
     expect(strCategory).toBeInTheDocument();
     const strMealThumb = screen.getByTestId(/recipe-photo/i);
     expect(strMealThumb).toBeInTheDocument();
@@ -179,10 +182,10 @@ describe('Teste para RecipeDetail', () => {
 
     await waitFor(() => {
       expect(history.location.pathname).toBe('/drinks/15997');
+      expect(screen.getByTestId(/recipe-title/i)).toHaveTextContent(/GG/i);
     });
 
     // const title = await screen.findByTestId(/recipe-title/i);
-    expect(await screen.findByTestId(/recipe-title/i)).toBeInTheDocument();
   });
 
   it('Testando a rota do bota start', async () => {
@@ -246,7 +249,8 @@ describe('Teste para RecipeDetail', () => {
     
   });
 
-  it('Teste lista de recomendações', async () => {
+  it('Teste lista de recomendações e favoritos', async () => {
+    localStorage.clear();
     const { history } = renderWithRouter(<App />);
     history.push('/foods');
 
@@ -282,10 +286,17 @@ describe('Teste para RecipeDetail', () => {
     const favBtn = await screen.findByTestId('favorite-btn');
     expect(favBtn).toBeInTheDocument();
     userEvent.click(favBtn);
-    expect(localStorage.getItem('favoriteRecipes')).toBeTruthy()
+    const blackColor = 'blackHeartIcon.svg';
+    expect(favBtn).toHaveAttribute('src', blackColor);
+    expect(localStorage.getItem('favoriteRecipes')).toBeTruthy();
+    expect(JSON.parse(localStorage.getItem('favoriteRecipes'))[0].id).toEqual('52977');
+    userEvent.click(favBtn);
+    expect(JSON.parse(localStorage.getItem('favoriteRecipes'))[0]).toBe(undefined);
+
   })
 
   it('Testando a rota do bota start', async () => {
+    localStorage.clear();
        
     const { history } = renderWithRouter(<App />);
     history.push('/drinks');
@@ -330,15 +341,20 @@ describe('Teste para RecipeDetail', () => {
     userEvent.click(startBtn)
 
     // history.push('/drinks/178319/in-progress')
-      expect(history.location.pathname).toBe('/drinks/178319/in-progress');
-
+    
+    expect(history.location.pathname).toBe('/drinks/178319/in-progress');
     await waitFor(() => {      
-      expect(localStorage.getItem('inProgressRecipes')).toBeTruthy()
+      expect(localStorage.getItem('inProgressRecipes')).toBeTruthy();
+      history.push('/drinks/178319');
+      expect(history.location.pathname).toBe('/drinks/178319');
+      const startButton = screen.getByTestId(/start-recipe-btn/i)
+      expect(startButton).toHaveTextContent('Continue Recipe');
     })
 
   });
 
   it('Testando o botão share', async () => {
+    localStorage.clear();
     jest.spyOn(navigator.clipboard, 'writeText');
     navigator.clipboard.writeText('http://localhost:3000/drinks/178319')
 
@@ -384,6 +400,38 @@ describe('Teste para RecipeDetail', () => {
     localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
     expect(localStorage.getItem('doneRecipes')).toBeTruthy();
     expect(JSON.parse(localStorage.getItem('doneRecipes'))[0].id).toEqual('178319');
-    expect(startBtn).not.toBeInTheDocument(); 
+    const startButton = screen.getByTestId(/start-recipe-btn/i)
+    // expect(startButton).not.toBeInTheDocument(); 
+  })
+
+  it('Testando a chamada da API', async () => {
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValue(aquamarine)
+    })
+
+    const { history } = renderWithRouter(<App />);
+    history.push('/drinks');
+    const searchBtn = screen.getByTestId(/search-top-btn/i);
+    expect(searchBtn).toBeInTheDocument();
+    userEvent.click(searchBtn);
+    const execBtn = screen.getByTestId(/exec-search-btn/i);
+    const igredient = screen.getByTestId(/ingredient-search-radio/i);
+    const name = screen.getByTestId(/name-search-radio/i);
+    const firstLetter = screen.getByTestId(/first-letter-search-radio/i);
+    const searchInput = screen.getByTestId(/search-input/i);
+    expect(execBtn).toBeInTheDocument();
+    expect(igredient).toBeInTheDocument();
+    expect(name).toBeInTheDocument();
+    expect(firstLetter).toBeInTheDocument();
+    expect(searchInput).toBeInTheDocument();
+    userEvent.click(name);
+    userEvent.type(searchInput, 'Aquamarine');
+    userEvent.click(execBtn);
+    
+    await waitFor(() => {
+      expect(history.location.pathname).toBe('/drinks/178319');
+      expect(fetch).toHaveBeenCalledWith('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+    });
   })
 });
