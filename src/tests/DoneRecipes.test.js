@@ -15,6 +15,7 @@ import { screen } from '@testing-library/react'
 import renderWithRouter from "./helpers/renderWithRouter";
 import userEvent from '@testing-library/user-event';
 import App from "../App";
+import DoneRecipes from "../Pages/DoneRecipes";
 
 const doneRecipes = JSON.stringify([
   {
@@ -101,5 +102,25 @@ describe('Aqui será o test da doneRecipes quando incluir req 48 e 49 e localSto
 
     const horizontalNames = screen.queryByTestId('0-horizontal-name');
     expect(horizontalNames).not.toBeInTheDocument();
+  });
+
+  it('linha 159-160 link copiado DoneRecipes', () => {
+    localStorage.setItem('doneRecipes', doneRecipes);
+    const { history } = renderWithRouter(<DoneRecipes />);
+    history.push('/done-recipes');
+    Object.assign(window.navigator, {
+      clipboard: {
+        writeText: jest.fn().mockImplementation(() => Promise.resolve()),
+      },
+    });
+    const shareBtn1 = screen.getByTestId('0-horizontal-share-btn');
+    userEvent.click(shareBtn1);
+    expect(window.navigator.clipboard.writeText).toHaveBeenCalled();
+    expect(window.navigator.clipboard.writeText).toHaveBeenCalledWith(
+      'http://localhost:3000/foods/52771'
+    );
+    const shareBtn2 = screen.getByTestId('1-horizontal-share-btn');
+    userEvent.click(shareBtn2);
+    expect(window.navigator.clipboard.writeText).toHaveBeenCalled();
   });
 });
