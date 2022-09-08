@@ -32,7 +32,7 @@ function RecipeDetails({ type }) {
       // getSugestions('https://www.themealdb.com/api/json/v1/1/search.php?s=');
     } else {
       getRecipe('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=');
-      // getSugestions('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+      // getSuge.php?s=');
     }
     checkDone();
   }, []);
