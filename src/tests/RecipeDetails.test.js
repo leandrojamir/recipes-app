@@ -10,8 +10,8 @@ import renderWithRouter from './helpers/renderWithRouter';
 import App from '../App';
 import foods from './mocks/FoodsListMock';
 import drinkList from './mocks/DrinksListMock';
-import penne from './mocks/Penne';
-import aquamarine from './mocks/Aquamarine';
+// import penne from './mocks/Penne';
+// import aquamarine from './mocks/Aquamarine';
 
 Object.assign(navigator, {
   clipboard: {
@@ -402,36 +402,5 @@ describe('Teste para RecipeDetail', () => {
     expect(JSON.parse(localStorage.getItem('doneRecipes'))[0].id).toEqual('178319');
     const startButton = screen.getByTestId(/start-recipe-btn/i)
     // expect(startButton).not.toBeInTheDocument(); 
-  })
-
-  it('Testando a chamada da API', async () => {
-    jest.spyOn(global, 'fetch');
-    global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(aquamarine)
-    })
-
-    const { history } = renderWithRouter(<App />);
-    history.push('/drinks');
-    const searchBtn = screen.getByTestId(/search-top-btn/i);
-    expect(searchBtn).toBeInTheDocument();
-    userEvent.click(searchBtn);
-    const execBtn = screen.getByTestId(/exec-search-btn/i);
-    const igredient = screen.getByTestId(/ingredient-search-radio/i);
-    const name = screen.getByTestId(/name-search-radio/i);
-    const firstLetter = screen.getByTestId(/first-letter-search-radio/i);
-    const searchInput = screen.getByTestId(/search-input/i);
-    expect(execBtn).toBeInTheDocument();
-    expect(igredient).toBeInTheDocument();
-    expect(name).toBeInTheDocument();
-    expect(firstLetter).toBeInTheDocument();
-    expect(searchInput).toBeInTheDocument();
-    userEvent.click(name);
-    userEvent.type(searchInput, 'Aquamarine');
-    userEvent.click(execBtn);
-    
-    await waitFor(() => {
-      expect(history.location.pathname).toBe('/drinks/178319');
-      expect(fetch).toHaveBeenCalledWith('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
-    });
   })
 });
