@@ -22,8 +22,8 @@ function RecipeDetails({ type }) {
   };
 
   function checkDone() {
-    const getDoneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
-    setShowDone(!(getDoneRecipes === null || getDoneRecipes.length === 0));
+    const getDoneRecipes = JSON.parse(localStorage.getItem('doneRecipes')) || [];
+    setShowDone(getDoneRecipes.some((done) => done.id === id));
   }
 
   useEffect(() => {

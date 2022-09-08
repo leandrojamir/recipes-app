@@ -75,6 +75,7 @@ describe('Testes da pagina de receitas em progresso', () => {
     userEvent.click(finishButton);
     expect(pathname).toBe('/done-recipes');
   });
+
   it('teste navegação', async () => {
     const { history } = renderWithRouter(<App />);
     history.push('/drinks/178319/in-progress');
@@ -111,4 +112,26 @@ describe('Testes da pagina de receitas em progresso', () => {
     // userEvent.click(checkProgress);
     expect(checkProgress).not.toBeChecked();
   });
+
+  it('Testar a ida da receita para a chave doneRecipes no LS', async () => {
+    localStorage.clear();
+    const { history } = renderWithRouter(<App />);
+    history.push('/foods/52771/in-progress');
+    const checkProgress = await screen.findAllByRole('checkbox');
+    // <button data-testid="finish-recipe-btn" type="button">Finalizar</button>
+    const finishButton = await screen.findByTestId(/finish-recipe-btn/i);
+    checkProgress.forEach((element) => {
+      userEvent.click(element);
+     });
+    expect(finishButton).not.toBeDisabled();
+    
+    userEvent.click(finishButton);
+    const { pathname } = history.location;
+    expect(pathname).toBe('/done-recipes');
+    expect(JSON.parse(localStorage.getItem('doneRecipes'))[0].id).toBe('52771')
+    history.push('/foods/52771')
+    await waitFor(() => {
+      expect(history.location.pathname).toBe('/foods/52771');
+    });
+  })
 });
