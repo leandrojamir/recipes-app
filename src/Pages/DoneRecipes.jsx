@@ -115,7 +115,7 @@ function DoneRecipes() {
           */}
           {/* Se ao clicar na foto da receita, a rota muda para a tela de detalhes daquela receita; */}
           {console.log(element.type)}
-          <Link to={ `${element.type}/${element.id}` }>
+          <Link to={ `${element.type}s/${element.id}` }>
             {/* O imagem do card de receita deve ter o atributo data-testid="${index}-horizontal-image"; */}
             <img
               style={ { width: '100px' } }
@@ -124,7 +124,7 @@ function DoneRecipes() {
               src={ element.image }
             />
           </Link>
-          <Link to={ `${element.type}/${element.id}` }>
+          <Link to={ `${element.type}s/${element.id}` }>
             {/* O texto do nome da receita deve ter o atributo data-testid="${index}-horizontal-name"; */}
             <div data-testid={ `${index}-horizontal-name` }>
               {element.name}
